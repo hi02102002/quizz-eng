@@ -1,10 +1,7 @@
 import { ROUTES } from '@constants';
 import { init } from 'next-firebase-auth';
-const { privateKey } = JSON.parse(
-   process.env.FIREBASE_PRIVATE_KEY || '{ privateKey: undefine }'
-);
 
-console.log(privateKey);
+console.log(process.env.FIREBASE_PRIVATE_KEY?.replace('/\\n/g', '\n'));
 
 const initAuth = () => {
    init({
@@ -22,7 +19,9 @@ const initAuth = () => {
          credential: {
             projectId: process.env.NEXT_PUBLIC_PROJECT_ID_FIREBASE as string,
             clientEmail: process.env.CLIENT_EMAIL as string,
-            privateKey: privateKey,
+            privateKey: process.env.FIREBASE_PRIVATE_KEY
+               ? process.env.FIREBASE_PRIVATE_KEY.replace('/\\n/g', '\n')
+               : '',
          },
          databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL_FIREBASE as string,
       },

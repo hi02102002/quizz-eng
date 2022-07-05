@@ -19,7 +19,7 @@
          "@components": ["src/components/index.tsx"],
          "@apis": ["src/apis/index.ts"],
          "@constants": ["./src/constants/index.ts"],
-         "@screens": ["src/screens/index.tsx"],
+         "@screens": ["src/screens/Auth/index.tsx"],
          "@styles*": ["src/styles*"],
          "@lib*": ["src/lib*"]
       }
