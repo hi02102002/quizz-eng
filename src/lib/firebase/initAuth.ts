@@ -1,8 +1,6 @@
 import { ROUTES } from '@constants';
 import { init } from 'next-firebase-auth';
 
-console.log(process.env.FIREBASE_PRIVATE_KEY);
-
 const initAuth = () => {
    init({
       authPageURL: ROUTES.LOGIN,
@@ -19,7 +17,9 @@ const initAuth = () => {
          credential: {
             projectId: process.env.NEXT_PUBLIC_PROJECT_ID_FIREBASE as string,
             clientEmail: process.env.CLIENT_EMAIL as string,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY as string,
+            privateKey: process.env.FIREBASE_PRIVATE_KEY
+               ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, '\n')
+               : '',
          },
          databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL_FIREBASE as string,
       },
