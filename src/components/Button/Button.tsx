@@ -24,10 +24,10 @@ const Button = ({
       ) : loading === 'HAVE_TEXT' ? (
          <>
             <Spiner />
-            <div>{children}</div>
+            {children}
          </>
       ) : (
-         <div>{children}</div>
+         children
       );
    }, [children, loading]);
 

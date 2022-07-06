@@ -1,14 +1,5 @@
-import { Header } from '@components';
-import type { NextPage } from 'next';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
-
-const Home: NextPage = () => {
-   return (
-      <div>
-         <Header />
-      </div>
-   );
-};
+import { Home } from 'src/screens';
 
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
@@ -18,4 +9,4 @@ export const getServerSideProps = withAuthUserSSR({
    };
 });
 
-export default withAuthUser<NextPage>()(Home);
+export default withAuthUser()(Home);

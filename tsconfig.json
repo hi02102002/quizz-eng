@@ -17,11 +17,16 @@
       "baseUrl": ".",
       "paths": {
          "@components": ["src/components/index.tsx"],
-         "@apis": ["src/apis/index.ts"],
+         "@apis*": ["src/apis*"],
          "@constants": ["./src/constants/index.ts"],
-         "@screens": ["src/screens/Auth/index.tsx"],
+         "@screens": ["src/screens/index.tsx"],
          "@styles*": ["src/styles*"],
-         "@lib*": ["src/lib*"]
+         "@shared*": ["src/shared*"],
+         "@services": ["src/services/index.ts"],
+         "@hooks": ["src/hooks/index.ts"],
+         "@contexts*": ["src/contexts*"],
+         "@utils": ["src/utils/index.ts"],
+         "@firebaseApp": ["src/firebaseApp/index.tsx"]
       }
    },
    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
