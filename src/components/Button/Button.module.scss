@@ -1,0 +1,20 @@
+.btn {
+   @apply outline-none outline-0 border-0 bg-transparent px-[0.75rem] py-[.375rem] text-lightTextGray rounded flex items-center space-x-4 text-sm leading-[1.33333333] font-semibold transition-all min-h-[32px];
+
+   &.primary {
+      @apply bg-mainColor hover:bg-[#423ed8] text-white active:bg-[#1f1c8b];
+   }
+
+   &.secondary {
+   }
+
+   &.dangerous {
+   }
+
+   &.success {
+   }
+
+   &.warn {
+      @apply bg-[#ffcd1f] text-[#282e3e] hover:bg-[#ffdc62] active:bg-[#ffedab];
+   }
+}

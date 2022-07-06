@@ -1,8 +1,13 @@
+import { Header } from '@components';
 import type { NextPage } from 'next';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
 const Home: NextPage = () => {
-   return <div></div>;
+   return (
+      <div>
+         <Header />
+      </div>
+   );
 };
 
 export const getServerSideProps = withAuthUserSSR({

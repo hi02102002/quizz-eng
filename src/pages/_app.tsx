@@ -1,4 +1,5 @@
 import { initAuth } from '@lib/firebase';
+import '@styles/globals.scss';
 import type { AppProps } from 'next/app';
 
 initAuth();
