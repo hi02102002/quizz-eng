@@ -12,6 +12,7 @@
    }
 
    &.success {
+      @apply bg-[#3ccfcf] text-white hover:bg-[#28a7a7];
    }
 
    &.warn {

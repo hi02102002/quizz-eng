@@ -1,0 +1,1 @@
+export { createTerm } from './createTerm';

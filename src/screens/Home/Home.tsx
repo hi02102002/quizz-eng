@@ -1,7 +1,9 @@
 import { Layout } from '@components';
 
-console.log(Layout);
-
 export const Home = () => {
-   return <Layout>Home</Layout>;
+   return (
+      <Layout>
+         <div></div>
+      </Layout>
+   );
 };

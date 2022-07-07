@@ -23,7 +23,13 @@ const Header = () => {
             <div className="flex items-center space-x-4">
                {user?.id ? (
                   <>
-                     <Button type="primary" className="!space-x-1">
+                     <Button
+                        type="primary"
+                        className="!space-x-1"
+                        onClick={() => {
+                           router.push(ROUTES.CREATE);
+                        }}
+                     >
                         <span>Create</span>
                         <BiPlus className="w-4 h-4" />
                      </Button>
