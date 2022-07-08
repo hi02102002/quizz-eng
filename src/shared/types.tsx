@@ -9,6 +9,12 @@ export interface IStudyModule {
    isSaved: boolean;
 }
 
+export interface IStudyModuleWithUser extends IStudyModule {
+   username: string;
+   email: string;
+   avatar: string;
+}
+
 export interface IStudy {
    id: string;
    lexicon: string;
@@ -24,4 +30,42 @@ export interface IQuestion {
       isAnswer: boolean;
       textAnswer: string; // lexicon
    }>;
+}
+
+export interface IValueImage {
+   webSearchUrl: string;
+   name: string;
+   thumbnailUrl: string;
+   datePublished: string;
+   isFamilyFriendly: boolean;
+   contentUrl: string;
+   hostPageUrl: string;
+   contentSize: string;
+   encodingFormat: string;
+   hostPageDisplayUrl: string;
+   width: string;
+   height: string;
+   hostPageDiscoveredDate: string;
+   thumbnail: {
+      width: string;
+      height: string;
+   };
+   imageInsightsToken: string;
+   insightsMetadata: {
+      recipeSourcesCount: number;
+      pagesIncludingCount: number;
+      availableSizesCount: number;
+   };
+   imageId: string;
+   accentColor: string;
+}
+
+export interface IResultSearch {
+   _type: string;
+   instrumentation: {
+      _type: string;
+   };
+   readLink: string;
+   webSearchUrl: string;
+   value: Array<IValueImage>;
 }

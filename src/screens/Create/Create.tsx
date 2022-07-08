@@ -1,7 +1,9 @@
 import { Button, Layout } from '@components';
+import { storage } from '@lib/firebase';
 import { createTerm } from '@services';
 import { IStudy } from '@shared/types';
 import { countStudySetHaveValue } from '@utils';
+import { deleteObject, ref } from 'firebase/storage';
 import { useAuthUser } from 'next-firebase-auth';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -17,6 +19,7 @@ const Create = () => {
          definition: '',
          id: v4(),
          lexicon: '',
+         imgUrl: '',
       },
    ]);
    const user = useAuthUser();
@@ -47,6 +50,15 @@ const Create = () => {
             return index !== _index;
          });
       });
+      const desertRef = ref(storage, studySets[index].id);
+
+      deleteObject(desertRef)
+         .then(() => {
+            console.log('xoa thanh cong');
+         })
+         .catch((error) => {
+            console.log('xoa that bai');
+         });
    };
 
    const handleCreate = async () => {
@@ -69,6 +81,16 @@ const Create = () => {
          toast('Add successfully', {
             type: 'success',
          });
+         setTitle('');
+         setDescription('');
+         setStudySets([
+            {
+               definition: '',
+               id: v4(),
+               lexicon: '',
+               imgUrl: '',
+            },
+         ]);
       } else {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',

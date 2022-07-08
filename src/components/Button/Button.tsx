@@ -23,7 +23,7 @@ const Button = ({
          <Spiner />
       ) : loading === 'HAVE_TEXT' ? (
          <>
-            <Spiner />
+            <Spiner className="mr-4" />
             {children}
          </>
       ) : (
