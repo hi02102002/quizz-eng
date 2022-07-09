@@ -14,8 +14,8 @@ const Header = () => {
       <header className="h-header flex items-center px-4 border-b border-solid border-[#edeff4] fixed top-0 left-0 right-0 bg-white z-[1000]">
          <div className="flex items-center justify-between w-full flex-1">
             <Link href={ROUTES.HOME}>
-               <a>
-                  <h3 className="text-3xl font-bold text-mainColor dark:text-white">
+               <a className="!no-underline">
+                  <h3 className="text-3xl font-bold text-mainColor dark:text-white ">
                      Quizz
                   </h3>
                </a>
@@ -24,7 +24,7 @@ const Header = () => {
                {user?.id ? (
                   <>
                      <Button
-                        type="primary"
+                        typeBtn="primary"
                         className="!space-x-1"
                         onClick={() => {
                            router.push(ROUTES.CREATE);
@@ -33,7 +33,12 @@ const Header = () => {
                         <span>Create</span>
                         <BiPlus className="w-4 h-4" />
                      </Button>
-                     <div className="cursor-pointer">
+                     <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                           user.signOut();
+                        }}
+                     >
                         <Image
                            src={
                               (user.photoURL as string) || '/images/avatar.png'
@@ -62,7 +67,7 @@ const Header = () => {
                         onClick={() => {
                            router.push(ROUTES.SIGN_UP);
                         }}
-                        type="warn"
+                        typeBtn="warn"
                      >
                         Sign up
                      </Button>

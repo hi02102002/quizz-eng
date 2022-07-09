@@ -11,6 +11,9 @@ const nextConfig = {
          'tse2.explicit.bing.net',
          'tse1.explicit.bing.net',
          'tse3.explicit.bing.net',
+         'avatars.githubusercontent.com',
+         'lh3.googleusercontent.com',
+         'firebasestorage.googleapis.com',
       ],
    },
 };

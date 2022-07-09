@@ -1,8 +1,19 @@
 .btn {
    @apply outline-none outline-0 border-0 bg-transparent px-[0.75rem] py-[.375rem] text-lightTextGray rounded flex items-center space-x-4 text-sm leading-[1.33333333] font-semibold transition-all min-h-[32px];
 
+   &:disabled {
+      @apply opacity-80;
+   }
+
    &.primary {
-      @apply bg-mainColor hover:bg-[#423ed8] text-white active:bg-[#1f1c8b];
+      @apply bg-mainColor  text-white;
+
+      &:hover:not([disabled]) {
+         @apply bg-[#423ed8];
+      }
+      &:active:not([disabled]) {
+         @apply bg-[#1f1c8b];
+      }
    }
 
    &.secondary {
@@ -13,9 +24,20 @@
 
    &.success {
       @apply bg-[#3ccfcf] text-white hover:bg-[#28a7a7];
+
+      &:hover:not([disabled]) {
+         @apply bg-[#28a7a7];
+      }
    }
 
    &.warn {
-      @apply bg-[#ffcd1f] text-[#282e3e] hover:bg-[#ffdc62] active:bg-[#ffedab];
+      @apply bg-[#ffcd1f] text-[#282e3e];
+
+      &:hover:not([disabled]) {
+         @apply bg-[#ffdc62];
+      }
+      &:active:not([disabled]) {
+         @apply bg-[#ffedab];
+      }
    }
 }

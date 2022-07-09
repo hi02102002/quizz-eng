@@ -5,6 +5,7 @@ import { IStudy } from '@shared/types';
 import { countStudySetHaveValue } from '@utils';
 import { deleteObject, ref } from 'firebase/storage';
 import { useAuthUser } from 'next-firebase-auth';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { v4 } from 'uuid';
@@ -24,6 +25,7 @@ const Create = () => {
    ]);
    const user = useAuthUser();
    const headerRef = useRef<HTMLDivElement | null>(null);
+   const router = useRouter();
 
    const handleChange = (input: IStudy, index: number) => {
       setStudySets((prevStates) => {
@@ -72,7 +74,7 @@ const Create = () => {
          const filterStudySets = studySets.filter(
             (studySet) => studySet.definition && studySet.lexicon
          );
-         await createTerm(
+         const idTerm = await createTerm(
             user.id as string,
             title,
             description,
@@ -81,16 +83,7 @@ const Create = () => {
          toast('Add successfully', {
             type: 'success',
          });
-         setTitle('');
-         setDescription('');
-         setStudySets([
-            {
-               definition: '',
-               id: v4(),
-               lexicon: '',
-               imgUrl: '',
-            },
-         ]);
+         router.push(`/${idTerm}`);
       } else {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
@@ -144,7 +137,7 @@ const Create = () => {
                         Create a new study set
                      </h2>
                      <Button
-                        type="success"
+                        typeBtn="success"
                         className="!px-6 !py-3"
                         onClick={handleCreate}
                      >
@@ -203,7 +196,7 @@ const Create = () => {
                   </div>
                   <div className="flex items-center justify-end">
                      <Button
-                        type="success"
+                        typeBtn="success"
                         className="!py-6 !px-20 !text-lg"
                         onClick={handleCreate}
                      >

@@ -6,6 +6,14 @@
    html {
       font-family: 'Poppins', sans-serif;
    }
+
+   body {
+      @apply text-[#303545];
+   }
+}
+
+a.line {
+   @apply hover:text-mainColor hover:underline transition-all inline-block;
 }
 
 .ui-container {

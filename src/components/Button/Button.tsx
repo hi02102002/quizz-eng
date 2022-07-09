@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
-import { HTMLAttributes, useCallback } from 'react';
+import { ButtonHTMLAttributes, useCallback } from 'react';
 import Spiner from '../Spiner';
 import styles from './Button.module.scss';
-interface Props extends HTMLAttributes<HTMLButtonElement> {
-   type?: 'primary' | 'secondary' | 'success' | 'error' | 'warn' | '';
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+   typeBtn?: 'primary' | 'secondary' | 'success' | 'error' | 'warn' | '';
    children: React.ReactNode;
    loading?: 'ONLY_LOADING' | 'HAVE_TEXT' | '';
 }
@@ -12,12 +12,24 @@ const cx = classNames.bind(styles);
 
 const Button = ({
    className = '',
-   type = '',
+   typeBtn = '',
    onClick,
    loading = '',
    children,
+   disabled,
+   type,
    ...props
 }: Props) => {
+   const propsDisable = () => {
+      if (disabled) {
+         return (
+            disabled || loading === 'HAVE_TEXT' || loading === 'ONLY_LOADING'
+         );
+      }
+
+      return loading === 'HAVE_TEXT' || loading === 'ONLY_LOADING';
+   };
+
    const renderChildren = useCallback(() => {
       return loading === 'ONLY_LOADING' ? (
          <Spiner />
@@ -33,9 +45,16 @@ const Button = ({
 
    return (
       <button
-         className={cx('btn', type, className)}
-         onClick={onClick}
+         className={cx('btn', typeBtn, className)}
+         onClick={(e) => {
+            if (propsDisable()) {
+               return;
+            }
+            onClick && onClick(e);
+         }}
+         disabled={propsDisable()}
          {...props}
+         type={type}
       >
          {renderChildren()}
       </button>

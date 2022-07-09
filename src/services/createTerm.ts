@@ -28,4 +28,6 @@ export const createTerm = async (
          id: idStudySet,
       });
    }
+
+   return idTerm;
 };

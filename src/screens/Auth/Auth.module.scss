@@ -1,0 +1,74 @@
+.auth {
+   @apply min-h-screen flex flex-col bg-[#f6f7fb];
+
+   .header {
+      @apply h-header flex items-center px-4;
+   }
+
+   &-logo {
+      @apply text-3xl font-bold text-mainColor dark:text-white;
+   }
+
+   &-main {
+      @apply flex-1 px-4 w-full h-full flex items-center justify-center;
+
+      &-wrap {
+         @apply w-full mx-auto flex flex-col justify-center items-center max-w-[400px];
+      }
+   }
+
+   &-title {
+      @apply text-[#303545] text-2xl font-bold self-start mb-5;
+   }
+
+   &-content {
+      @apply bg-white p-6 rounded w-full shadow;
+   }
+
+   .btn-providers-group {
+      @apply space-y-3;
+   }
+
+   .btn-provider {
+      @apply border-2 border-solid border-[#e5e5e5] w-full min-h-[48px] text-base font-semibold text-[#303545] justify-center space-x-2;
+
+      svg {
+         @apply w-6 h-6;
+      }
+
+      &:hover:not([disabled]) {
+         @apply bg-[#eee];
+      }
+      &:active:not([disabled]) {
+         @apply scale-95;
+      }
+   }
+
+   &-form {
+      @apply space-y-4;
+   }
+
+   &-btn-action {
+      @apply min-h-[48px] w-full justify-center text-lg;
+   }
+
+   .input-group {
+      @apply flex flex-col;
+
+      input {
+         @apply min-h-[48px] px-4 border-[2px] outline-0 rounded border-solid border-[#e5e5e5] placeholder:font-medium font-medium text-[#1a1d28] focus:border-[#ffcd1f] transition-all;
+      }
+
+      label {
+         @apply block mb-3 uppercase text-xs font-semibold text-neutral-500;
+      }
+
+      &.error input {
+         @apply border-red-500;
+      }
+   }
+
+   .error-msg {
+      @apply mt-2 text-sm text-red-500 font-medium;
+   }
+}

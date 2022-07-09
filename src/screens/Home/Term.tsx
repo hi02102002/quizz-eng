@@ -1,4 +1,5 @@
 import { IStudyModuleWithUser } from '@shared/types';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -16,6 +17,19 @@ const Term = ({ term }: Props) => {
                      <span className="text-sm font-semibold text-[#939bb4]">
                         {term.numOfLexicon} terms
                      </span>
+                  </div>
+                  <div className="flex items-center mt-auto">
+                     <Image
+                        width={24}
+                        height={24}
+                        src={term.avatar}
+                        alt={term.username}
+                        className="rounded-full"
+                     />
+                     <h4 className="ml-2 text-[#303545] font-semibold text-sm">
+                        {' '}
+                        {term.username}
+                     </h4>
                   </div>
                </div>
             </div>
