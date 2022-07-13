@@ -22,13 +22,13 @@ const Term = ({ term }: Props) => {
                      <Image
                         width={24}
                         height={24}
-                        src={term.avatar}
-                        alt={term.username}
+                        src={term.user.avatar}
+                        alt={term.user.username}
                         className="rounded-full"
                      />
                      <h4 className="ml-2 text-[#303545] font-semibold text-sm">
                         {' '}
-                        {term.username}
+                        {term.user.username}
                      </h4>
                   </div>
                </div>

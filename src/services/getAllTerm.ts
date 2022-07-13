@@ -12,9 +12,11 @@ export const getAllTerm = async (userId: string) => {
    return querySnapshot.docs.map((doc) => {
       return {
          ...doc.data(),
-         avatar: user?.avatar as string,
-         email: user?.email,
-         username: user?.username,
+         user: {
+            avatar: user?.avatar as string,
+            email: user?.email,
+            username: user?.username,
+         },
       } as IStudyModuleWithUser;
    });
 };
