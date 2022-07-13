@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import styles from './Auth.module.scss';
 import AuthContainer from './AuthContainer';
@@ -39,9 +40,15 @@ const Login = () => {
       try {
          setLoading(true);
          await signInWithEmailAndPassword(auth, email, password);
+         toast('Login successfully.', {
+            type: 'success',
+         });
          setLoading(false);
-      } catch (error) {
+      } catch (error: any) {
          setLoading(false);
+         toast(error.message, {
+            type: 'error',
+         });
       } finally {
          setLoading(false);
       }

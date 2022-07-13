@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, useCallback } from 'react';
 import Spiner from '../Spiner';
 import styles from './Button.module.scss';
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-   typeBtn?: 'primary' | 'secondary' | 'success' | 'error' | 'warn' | '';
+   typeBtn?: 'primary' | 'secondary' | 'success' | 'dangerous' | 'warn' | '';
    children: React.ReactNode;
    loading?: 'ONLY_LOADING' | 'HAVE_TEXT' | '';
 }

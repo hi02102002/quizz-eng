@@ -1,5 +1,5 @@
 import { db } from '@lib/firebase';
-import { IStudy, IStudyModule } from '@shared/types';
+import { IStudy } from '@shared/types';
 import { doc, setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
@@ -9,25 +9,17 @@ export const createTerm = async (
    description: string,
    studySets: Array<IStudy>
 ) => {
-   const idTerm = uuid();
+   const id = uuid();
 
-   const newTerm: IStudyModule = {
-      id: idTerm,
+   const newTerm = {
+      id,
       description,
       title,
       isSaved: false,
       numOfLexicon: studySets.length,
       userId,
+      flashcards: studySets,
    };
-
-   await setDoc(doc(db, 'terms', idTerm), newTerm);
-   for (let i = 0; i < studySets.length; i++) {
-      const idStudySet = uuid();
-      await setDoc(doc(db, `terms/${idTerm}/studySets`, idStudySet), {
-         ...studySets[i],
-         id: idStudySet,
-      });
-   }
-
-   return idTerm;
+   await setDoc(doc(db, 'terms', id), newTerm);
+   return id;
 };

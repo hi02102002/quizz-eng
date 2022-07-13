@@ -1,34 +1,47 @@
-import { Button, Layout } from '@components';
+import { Button, Input, Layout } from '@components';
 import { storage } from '@lib/firebase';
-import { createTerm } from '@services';
+import { createTerm, editTerm } from '@services';
 import { IStudy } from '@shared/types';
 import { countStudySetHaveValue } from '@utils';
 import { deleteObject, ref } from 'firebase/storage';
 import { useAuthUser } from 'next-firebase-auth';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { v4 } from 'uuid';
-import Input from './components/Input';
-import Study from './components/Study';
+import Study from './Study';
 
-const Create = () => {
-   const [title, setTitle] = useState<string>('');
-   const [description, setDescription] = useState<string>('');
-   const [studySets, setStudySets] = useState<Array<IStudy>>([
-      {
-         definition: '',
-         id: v4(),
-         lexicon: '',
-         imgUrl: '',
-      },
-   ]);
+interface Props {
+   title?: string;
+   description?: string;
+   flashcards?: Array<IStudy>;
+   type: 'edit' | 'create';
+   id?: string;
+}
+
+const Create = (props: Props) => {
+   const [title, setTitle] = useState<string>(props.title || '');
+   const [description, setDescription] = useState<string>(
+      props.description || ''
+   );
+   const [flashcards, setFlashCards] = useState<Array<IStudy>>(
+      props.flashcards || [
+         {
+            definition: '',
+            id: v4(),
+            lexicon: '',
+            imgUrl: '',
+         },
+      ]
+   );
    const user = useAuthUser();
    const headerRef = useRef<HTMLDivElement | null>(null);
    const router = useRouter();
+   const [loadingCreate, setLoadingCreate] = useState<boolean>(false);
 
    const handleChange = (input: IStudy, index: number) => {
-      setStudySets((prevStates) => {
+      setFlashCards((prevStates) => {
          return prevStates.map((item, _index) => {
             if (_index === index) return input;
             return item;
@@ -37,7 +50,7 @@ const Create = () => {
    };
 
    const handleAddCard = () => {
-      setStudySets((prevStates) => {
+      setFlashCards((prevStates) => {
          return prevStates.concat({
             definition: '',
             id: v4(),
@@ -46,14 +59,14 @@ const Create = () => {
       });
    };
 
-   const handleRemoveCard = (index: number) => {
-      setStudySets((prevStates) => {
-         return prevStates.filter((_, _index) => {
-            return index !== _index;
+   const handleRemoveCard = (id: string, index: number) => {
+      setFlashCards((prevStates) => {
+         return prevStates.filter((studySet) => {
+            return id !== studySet.id;
          });
       });
-      const desertRef = ref(storage, studySets[index].id);
 
+      const desertRef = ref(storage, flashcards[index].id);
       deleteObject(desertRef)
          .then(() => {
             console.log('xoa thanh cong');
@@ -64,15 +77,16 @@ const Create = () => {
    };
 
    const handleCreate = async () => {
-      if (studySets.length < 2 || title.trim().length === 0) {
+      if (flashcards.length < 2 || title.trim().length === 0) {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
          });
          return;
       }
-      if (countStudySetHaveValue(studySets) >= 2) {
-         const filterStudySets = studySets.filter(
-            (studySet) => studySet.definition && studySet.lexicon
+      if (countStudySetHaveValue(flashcards) >= 2) {
+         setLoadingCreate(true);
+         const filterStudySets = flashcards.filter(
+            (flashcard) => flashcard.definition && flashcard.lexicon
          );
          const idTerm = await createTerm(
             user.id as string,
@@ -83,11 +97,44 @@ const Create = () => {
          toast('Add successfully', {
             type: 'success',
          });
-         router.push(`/${idTerm}`);
+         setLoadingCreate(false);
+         router.push(`/term/${idTerm}`);
       } else {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
          });
+         setLoadingCreate(false);
+      }
+   };
+
+   const handleUpdate = async () => {
+      if (flashcards.length < 2 || title.trim().length === 0) {
+         toast('You must enter at least two cards and title to save your set', {
+            type: 'error',
+         });
+         return;
+      }
+      if (countStudySetHaveValue(flashcards) >= 2) {
+         setLoadingCreate(true);
+         const filterFlashcards = flashcards.filter(
+            (flashcard) => flashcard.definition && flashcard.lexicon
+         );
+         const idTerm = await editTerm(
+            props.id as string,
+            filterFlashcards,
+            title,
+            description
+         );
+         toast('Edit successfully', {
+            type: 'success',
+         });
+         setLoadingCreate(false);
+         router.push(`/term/${idTerm}`);
+      } else {
+         toast('You must enter at least two cards and title to save your set', {
+            type: 'error',
+         });
+         setLoadingCreate(false);
       }
    };
 
@@ -134,14 +181,30 @@ const Create = () => {
                <div ref={headerRef} className=" bg-[#f6f7fb]">
                   <div className="flex items-center justify-between h-[6.875rem]  ui-container">
                      <h2 className="text-xl font-bold">
-                        Create a new study set
+                        {props.type === 'create' ? (
+                           ' Create a new study set'
+                        ) : (
+                           <button
+                              onClick={(e) => {
+                                 e.stopPropagation();
+                                 router.back();
+                              }}
+                              className="flex items-center space-x-2"
+                           >
+                              <IoIosArrowBack className="w-6 h-6 text-[#3ccfcf]" />
+                              <span>Back to set</span>
+                           </button>
+                        )}
                      </h2>
                      <Button
                         typeBtn="success"
                         className="!px-6 !py-3"
-                        onClick={handleCreate}
+                        onClick={
+                           props.type === 'create' ? handleCreate : handleUpdate
+                        }
+                        loading={loadingCreate ? 'ONLY_LOADING' : ''}
                      >
-                        Create
+                        {props.type === 'create' ? 'Create' : 'Done'}
                      </Button>
                   </div>
                </div>
@@ -169,7 +232,7 @@ const Create = () => {
                </div>
                <div>
                   <ul>
-                     {studySets.map((item, index) => {
+                     {flashcards.map((item, index) => {
                         return (
                            <li key={item.id} className="mb-5">
                               <Study
@@ -179,7 +242,7 @@ const Create = () => {
                                     handleChange(input, index);
                                  }}
                                  onRemove={() => {
-                                    handleRemoveCard(index);
+                                    handleRemoveCard(item.id, index);
                                  }}
                               />
                            </li>
@@ -193,15 +256,6 @@ const Create = () => {
                      >
                         + add card
                      </button>
-                  </div>
-                  <div className="flex items-center justify-end">
-                     <Button
-                        typeBtn="success"
-                        className="!py-6 !px-20 !text-lg"
-                        onClick={handleCreate}
-                     >
-                        Create
-                     </Button>
                   </div>
                </div>
             </div>

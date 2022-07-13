@@ -1,5 +1,4 @@
 import { Autoplay } from 'swiper';
-import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { v4 as uuid } from 'uuid';
 const data: Array<{

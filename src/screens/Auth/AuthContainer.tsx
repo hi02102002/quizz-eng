@@ -34,7 +34,7 @@ const AuthContainer = ({ children, title, contentNavigate }: Props) => {
    return (
       <div className={`${cx('auth')} pb-6`}>
          <header className={`${cx('header')} h-header `}>
-            <div className="ui-container w-full">
+            <div className="w-full">
                <Link href={ROUTES.HOME}>
                   <a>
                      <h3 className={cx('auth-logo')}>Quizz</h3>

@@ -20,6 +20,14 @@
    }
 
    &.dangerous {
+      @apply bg-[#ff725b]  text-white;
+
+      &:hover:not([disabled]) {
+         @apply bg-[#ff8e7b];
+      }
+      &:active:not([disabled]) {
+         @apply bg-[#ff8e7b];
+      }
    }
 
    &.success {

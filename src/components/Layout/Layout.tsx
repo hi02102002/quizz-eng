@@ -8,7 +8,9 @@ const Layout = ({ children }: Props) => {
    return (
       <>
          <Header />
-         <main className="mt-header">{children}</main>
+         <main className="mt-header min-h-[calc(100vh_-_63px)] flex flex-col">
+            {children}
+         </main>
       </>
    );
 };

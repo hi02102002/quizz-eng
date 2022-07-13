@@ -1,12 +1,12 @@
 import { db } from '@lib/firebase';
 import { IStudyModuleWithUser } from '@shared/types';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { getUser } from './getUser';
+import { getUserById } from './getUserById';
 
 export const getAllTerm = async (userId: string) => {
    const q = query(collection(db, 'terms'), where('userId', '==', userId));
 
-   const user = await getUser(userId);
+   const user = await getUserById(userId);
 
    const querySnapshot = await getDocs(q);
    return querySnapshot.docs.map((doc) => {

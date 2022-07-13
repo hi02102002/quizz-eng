@@ -44,7 +44,7 @@ const Hero = () => {
                      </p>
                   </div>
                   <Button
-                     type="primary"
+                     typeBtn="primary"
                      className="!py-[1.25rem] !px-[2rem] m-[3rem]"
                      onClick={handleGetStarted}
                   >

@@ -6,6 +6,8 @@ import nProgress from 'nprogress';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'swiper/css';
+
 initAuth();
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -36,8 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             position="top-center"
             hideProgressBar={true}
             draggable
-            autoClose={1000}
+            autoClose={2000}
             closeButton={false}
+            theme="colored"
          />
          <Component {...pageProps} />
       </>

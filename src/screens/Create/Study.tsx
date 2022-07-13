@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button, Spiner } from '@components';
+import { Button, Input, Spiner } from '@components';
 import { useDebounce } from '@hooks';
 import { storage } from '@lib/firebase';
 import { IStudy, IValueImage } from '@shared/types';
@@ -20,7 +20,6 @@ import {
 import { BiImageAdd } from 'react-icons/bi';
 import { CgTrash } from 'react-icons/cg';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import Input from './Input';
 interface Props {
    index: number;
    value: IStudy;
@@ -42,7 +41,7 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
       url: string;
    }>({
       type: 'url',
-      url: '',
+      url: value.imgUrl || '',
    });
    const inputFileImageRef = useRef<HTMLInputElement | null>(null);
    const [loadingUploadFile, setLoadingUpLoadFile] = useState<boolean>(false);
@@ -158,7 +157,7 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
                   'X-RapidAPI-Key': process.env
                      .NEXT_PUBLIC_RAPID_API_KEY as string,
                   'X-RapidAPI-Host': process.env
-                     .NEXT_PUBLIC_RAPID_HOST as string,
+                     .NEXT_PUBLIC_RAPID_HOST_BING_SEARCH as string,
                   'Content-Type': 'application/json',
                },
                method: 'GET',
@@ -256,7 +255,7 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
                      />
                   </div>
                   <Button
-                     type="success"
+                     typeBtn="success"
                      className="!py-3 !px-6"
                      onClick={() => {
                         inputFileImageRef.current?.click();

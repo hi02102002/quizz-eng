@@ -7,12 +7,15 @@ export interface IStudyModule {
    numOfLexicon: number;
    urlImg?: string;
    isSaved: boolean;
+   flashcards: Array<IStudy>;
 }
 
 export interface IStudyModuleWithUser extends IStudyModule {
-   username: string;
-   email: string;
-   avatar: string;
+   user: {
+      username: string;
+      email: string;
+      avatar: string;
+   };
 }
 
 export interface IStudy {

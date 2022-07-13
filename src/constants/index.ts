@@ -6,4 +6,5 @@ export const ROUTES = {
    API_LOG_OUT: '/api/logout',
    CREATE: '/create',
    FORGOT_PASSWORD: '/forgot-password',
+   EDIT: '/edit',
 };

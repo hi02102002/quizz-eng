@@ -2,6 +2,7 @@ import { Button } from '@components';
 import { ROUTES } from '@constants';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { auth, db } from '@lib/firebase';
+import { getUserByUsername } from '@services';
 import classNames from 'classnames/bind';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -54,6 +55,16 @@ const SignUp = () => {
    const onSubmit = async ({ email, password, username }: IFormInputs) => {
       try {
          setLoading(true);
+
+         const userExist = await getUserByUsername(username);
+
+         if (userExist) {
+            toast('Username already use by other user.', {
+               type: 'error',
+            });
+            setLoading(false);
+            return;
+         }
 
          const { user } = await createUserWithEmailAndPassword(
             auth,
