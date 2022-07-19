@@ -19,7 +19,9 @@ export const createTerm = async (
       numOfLexicon: studySets.length,
       userId,
       flashcards: studySets,
+      currentIndexFlashcard: 0,
    };
    await setDoc(doc(db, 'terms', id), newTerm);
+
    return id;
 };

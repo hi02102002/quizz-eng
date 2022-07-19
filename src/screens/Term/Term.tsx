@@ -1,7 +1,7 @@
 import { Button, Layout } from '@components';
 import { ROUTES } from '@constants';
 import { db } from '@lib/firebase';
-import { updateFlashCard } from '@services';
+import { handleTextToSpeed, updateFlashCard } from '@services';
 import { IStudy, IStudyModuleWithUser } from '@shared/types';
 import { deleteDoc, doc } from 'firebase/firestore';
 import Image from 'next/image';
@@ -22,14 +22,20 @@ const Term = ({ term }: Props) => {
 
    const handleUpdate = async (
       termId: string,
-      flashcardId: string,
+      currentFlashcard: IStudy,
       lexicon: string,
       definition: string
    ) => {
-      await updateFlashCard(termId, flashcardId, lexicon, definition);
+      if (
+         lexicon.trim() === currentFlashcard.lexicon &&
+         definition.trim() === currentFlashcard.definition
+      ) {
+         return;
+      }
+      await updateFlashCard(termId, currentFlashcard.id, lexicon, definition);
       setFlashCards((prevStates) => {
          return prevStates.map((flashcard) => {
-            if (flashcard.id === flashcardId) {
+            if (flashcard.id === currentFlashcard.id) {
                return {
                   ...flashcard,
                   lexicon,
@@ -110,20 +116,15 @@ const Term = ({ term }: Props) => {
                                  <Card
                                     flashCard={flashCard}
                                     onUpdate={async (lexicon, definition) => {
-                                       if (
-                                          lexicon.trim() ===
-                                             flashCard.lexicon &&
-                                          definition.trim() ===
-                                             flashCard.definition
-                                       ) {
-                                          return;
-                                       }
                                        await handleUpdate(
                                           term.id,
-                                          flashCard.id,
+                                          flashCard,
                                           lexicon,
                                           definition
                                        );
+                                    }}
+                                    onTextToSpeed={() => {
+                                       handleTextToSpeed(flashCard.lexicon);
                                     }}
                                  />
                               </li>

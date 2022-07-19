@@ -8,9 +8,10 @@ import { FiVolume2 } from 'react-icons/fi';
 interface Props {
    flashCard: IStudy;
    onUpdate: (term: string, definition: string) => void;
+   onTextToSpeed: () => void;
 }
 
-const Card = ({ flashCard, onUpdate }: Props) => {
+const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
    const [term, setTerm] = useState<string>(flashCard.lexicon);
    const [definition, setDefinition] = useState<string>(flashCard.definition);
    const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -78,7 +79,10 @@ const Card = ({ flashCard, onUpdate }: Props) => {
             </div>
             <div className="flex-1">
                <div className="flex items-center space-x-2">
-                  <button className="h-10 w-10 flex items-center justify-center hover:bg-[#d9dde8] transition-all text-[#586380] rounded-full">
+                  <button
+                     className="h-10 w-10 flex items-center justify-center hover:bg-[#d9dde8] transition-all text-[#586380] rounded-full"
+                     onClick={onTextToSpeed}
+                  >
                      <FiVolume2 className=" w-5 h-5" />
                   </button>
                   <button

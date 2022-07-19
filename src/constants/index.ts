@@ -7,4 +7,5 @@ export const ROUTES = {
    CREATE: '/create',
    FORGOT_PASSWORD: '/forgot-password',
    EDIT: '/edit',
+   TERM: '/term',
 };

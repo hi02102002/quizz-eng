@@ -1,8 +1,8 @@
 import { IStudy } from '@shared/types';
 import { EffectCards, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import FlashCard from './FlashCard';
 
+import { Flashcard } from '@components';
 import React from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import 'swiper/css/navigation';
@@ -46,10 +46,10 @@ const FlashCardPreviews = ({ flashCards }: Props) => {
                return (
                   <SwiperSlide
                      key={flashCard.id}
-                     className="rounded-lg overflow-hidden  cursor-pointer"
+                     className="rounded-lg overflow-hidden  cursor-pointer "
                   >
                      {({ isActive }) => (
-                        <FlashCard flashCard={flashCard} isActive={isActive} />
+                        <Flashcard flashCard={flashCard} isActive={isActive} />
                      )}
                   </SwiperSlide>
                );

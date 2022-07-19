@@ -59,14 +59,14 @@ const Create = (props: Props) => {
       });
    };
 
-   const handleRemoveCard = (id: string, index: number) => {
+   const handleRemoveCard = (id: string, _index: number) => {
       setFlashCards((prevStates) => {
          return prevStates.filter((studySet) => {
             return id !== studySet.id;
          });
       });
 
-      const desertRef = ref(storage, flashcards[index].id);
+      const desertRef = ref(storage, flashcards[_index].id);
       deleteObject(desertRef)
          .then(() => {
             console.log('xoa thanh cong');
@@ -85,14 +85,20 @@ const Create = (props: Props) => {
       }
       if (countStudySetHaveValue(flashcards) >= 2) {
          setLoadingCreate(true);
-         const filterStudySets = flashcards.filter(
-            (flashcard) => flashcard.definition && flashcard.lexicon
-         );
+         const filterFlashcards = flashcards
+            .filter((flashcard) => flashcard.definition && flashcard.lexicon)
+            .map((flashcard, index) => {
+               return {
+                  ...flashcard,
+                  index,
+               };
+            });
+
          const idTerm = await createTerm(
             user.id as string,
             title,
             description,
-            filterStudySets
+            filterFlashcards
          );
          toast('Add successfully', {
             type: 'success',
@@ -116,9 +122,15 @@ const Create = (props: Props) => {
       }
       if (countStudySetHaveValue(flashcards) >= 2) {
          setLoadingCreate(true);
-         const filterFlashcards = flashcards.filter(
-            (flashcard) => flashcard.definition && flashcard.lexicon
-         );
+         const filterFlashcards = flashcards
+            .filter((flashcard) => flashcard.definition && flashcard.lexicon)
+            .map((flashcard, index) => {
+               return {
+                  ...flashcard,
+                  index,
+               };
+            });
+
          const idTerm = await editTerm(
             props.id as string,
             filterFlashcards,

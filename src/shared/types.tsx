@@ -8,6 +8,7 @@ export interface IStudyModule {
    urlImg?: string;
    isSaved: boolean;
    flashcards: Array<IStudy>;
+   currentIndexFlashcard: number;
 }
 
 export interface IStudyModuleWithUser extends IStudyModule {
@@ -23,6 +24,7 @@ export interface IStudy {
    lexicon: string;
    definition: string;
    imgUrl?: string;
+   index?: number;
 }
 
 export interface IQuestion {
@@ -78,4 +80,9 @@ export interface IUser {
    avatar?: string;
    email: string;
    id: string;
+}
+
+export interface ICurrentIndex {
+   flashcardIndex: number;
+   termId: string;
 }
