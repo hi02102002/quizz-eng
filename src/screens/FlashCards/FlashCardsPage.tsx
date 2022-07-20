@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
-import Swiper, { Navigation, Pagination } from 'swiper';
+import Swiper, { Navigation, Pagination, Virtual } from 'swiper';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper as SwiperReact, SwiperSlide } from 'swiper/react';
@@ -205,8 +205,9 @@ const FlashCardsPage = ({ term }: Props) => {
                   <div className="aspect-w-5 aspect-h-2 mb-4">
                      <SwiperReact
                         className="h-full   !absolute"
-                        modules={[Pagination, Navigation]}
+                        modules={[Pagination, Navigation, Virtual]}
                         simulateTouch={false}
+                        virtual
                         pagination={{
                            renderCustom: (swiper, current, total) => {
                               setWidthProgress((current - 1) / total);
@@ -244,12 +245,14 @@ const FlashCardsPage = ({ term }: Props) => {
                         onSwiper={(swiper) => {
                            swiperRef.current = swiper;
                         }}
+                        allowTouchMove={false}
                      >
-                        {term.flashcards.map((flashCard) => {
+                        {term.flashcards.map((flashCard, index) => {
                            return (
                               <SwiperSlide
                                  key={flashCard.id}
                                  className="rounded-lg  cursor-pointer "
+                                 virtualIndex={index}
                               >
                                  {({ isActive }) => (
                                     <Flashcard

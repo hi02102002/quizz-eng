@@ -19,22 +19,24 @@ export interface IStudyModuleWithUser extends IStudyModule {
    };
 }
 
+export interface IQuestion {
+   questionId: string;
+   term: string;
+   answers: Array<IAnswer>;
+}
+
+export interface IAnswer {
+   definition: string;
+   answerId: string;
+   imgUrl?: string;
+}
+
 export interface IStudy {
    id: string;
    lexicon: string;
    definition: string;
    imgUrl?: string;
    index?: number;
-}
-
-export interface IQuestion {
-   id: string;
-   question: string; // definition
-   choices: Array<{
-      id: string;
-      isAnswer: boolean;
-      textAnswer: string; // lexicon
-   }>;
 }
 
 export interface IValueImage {
