@@ -3,7 +3,7 @@ import { ROUTES } from '@constants';
 import { IQuestion } from '@shared/types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import Swiper, { Virtual } from 'swiper';
 import { Swiper as SwiperReact, SwiperSlide } from 'swiper/react';
@@ -20,15 +20,16 @@ const Questions = ({ questions, termId }: Props) => {
    const swiperRef = useRef<Swiper | null>(null);
    const [countRightAnswer, setCountRightAnswer] = useState<number>(0);
    const [index, setIndex] = useState<number>(0);
+   const [isTryAgain, setIsTryAgain] = useState<boolean>(false);
 
    const handelWhenRightAnswer = (value: boolean) => {
       setShowButtonNext(!value);
       if (value) {
          setTimeout(() => {
             swiperRef.current?.slideNext(200);
+            setIndex(index + 1);
          }, 2000);
          setCountRightAnswer(countRightAnswer + 1);
-         setIndex(index + 1);
       }
    };
 
@@ -42,7 +43,21 @@ const Questions = ({ questions, termId }: Props) => {
       setIndex(0);
       setCountRightAnswer(0);
       swiperRef.current?.slideTo(0, 0);
+      setIsTryAgain(true);
    };
+
+   useEffect(() => {
+      let timer: NodeJS.Timeout;
+      if (isTryAgain) {
+         timer = setTimeout(() => {
+            setIsTryAgain(false);
+         }, 500);
+      }
+
+      return () => {
+         timer && clearTimeout(timer);
+      };
+   }, [isTryAgain]);
 
    return (
       <div>
@@ -168,6 +183,7 @@ const Questions = ({ questions, termId }: Props) => {
                                     question={question}
                                     onIsRightAnswer={handelWhenRightAnswer}
                                     isActive={isActive}
+                                    isTryAgain={isTryAgain}
                                  />
                               );
                            }}

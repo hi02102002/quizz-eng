@@ -8,9 +8,15 @@ interface Props {
    question: IQuestion;
    onIsRightAnswer: (value: boolean) => void;
    isActive: boolean;
+   isTryAgain: boolean;
 }
 
-const Question = ({ question, onIsRightAnswer, isActive }: Props) => {
+const Question = ({
+   question,
+   onIsRightAnswer,
+   isActive,
+   isTryAgain,
+}: Props) => {
    const [chooseAnswer, setChooseAnswer] = useState<string>('');
    const [isChoose, setIsChoose] = useState<boolean>(false);
 
@@ -35,6 +41,13 @@ const Question = ({ question, onIsRightAnswer, isActive }: Props) => {
          handleTextToSpeed(question.term);
       }
    }, [isActive, question.term]);
+
+   useEffect(() => {
+      if (isTryAgain) {
+         setChooseAnswer('');
+         setIsChoose(false);
+      }
+   }, [isTryAgain]);
 
    const isCorrect = useCallback(
       (answer: IAnswer) => {
