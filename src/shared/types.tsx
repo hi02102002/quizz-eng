@@ -1,4 +1,4 @@
-export interface IStudyModule {
+export interface ITerm {
    id: string;
    docId?: string;
    userId: string;
@@ -7,11 +7,11 @@ export interface IStudyModule {
    numOfLexicon: number;
    urlImg?: string;
    isSaved: boolean;
-   flashcards: Array<IStudy>;
+   flashcards: Array<IFlashcard>;
    currentIndexFlashcard: number;
 }
 
-export interface IStudyModuleWithUser extends IStudyModule {
+export interface ITermWithUser extends ITerm {
    user: {
       username: string;
       email: string;
@@ -31,7 +31,7 @@ export interface IAnswer {
    imgUrl?: string;
 }
 
-export interface IStudy {
+export interface IFlashcard {
    id: string;
    lexicon: string;
    definition: string;

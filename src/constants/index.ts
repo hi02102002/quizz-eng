@@ -8,4 +8,8 @@ export const ROUTES = {
    FORGOT_PASSWORD: '/forgot-password',
    EDIT: '/edit',
    TERM: '/term',
+   FLASHCARDS: '/flashcards',
+   QUESTIONS: '/questions',
+   GAME: '/game',
+   WRITE: '/write',
 };

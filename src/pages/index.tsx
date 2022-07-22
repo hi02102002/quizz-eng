@@ -1,11 +1,11 @@
+import { FullPageLoading } from '@components';
 import { getAllTerm } from '@services';
-import { IStudyModuleWithUser } from '@shared/types';
+import { ITermWithUser } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
-import FullpageLoading from 'src/components/FullpageLoading/FullpageLoading';
 import { Home } from 'src/screens';
 
 interface Props {
-   terms: Array<IStudyModuleWithUser>;
+   terms: Array<ITermWithUser>;
 }
 
 export const getServerSideProps = withAuthUserSSR({
@@ -24,5 +24,5 @@ export default withAuthUser<Props>({
    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
    whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
    whenAuthedBeforeRedirect: AuthAction.SHOW_LOADER,
-   LoaderComponent: FullpageLoading,
+   LoaderComponent: FullPageLoading,
 })(Home);

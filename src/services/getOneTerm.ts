@@ -1,12 +1,12 @@
 import { db } from '@lib/firebase';
-import { IStudyModule, IStudyModuleWithUser } from '@shared/types';
+import { ITerm, ITermWithUser } from '@shared/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { getUserById } from './getUserById';
 
 export const getOneTerm = async (termId: string) => {
    const termRef = doc(db, 'terms', termId);
    const termSnap = await getDoc(termRef);
-   const term = termSnap.data() as IStudyModule;
+   const term = termSnap.data() as ITerm;
    const user = await getUserById(term.userId);
    return {
       ...term,
@@ -15,5 +15,5 @@ export const getOneTerm = async (termId: string) => {
          username: user?.username,
          email: user?.email,
       },
-   } as IStudyModuleWithUser;
+   } as ITermWithUser;
 };

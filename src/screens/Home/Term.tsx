@@ -1,9 +1,9 @@
-import { IStudyModuleWithUser } from '@shared/types';
+import { ITermWithUser } from '@shared/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-   term: IStudyModuleWithUser;
+   term: ITermWithUser;
 }
 
 const Term = ({ term }: Props) => {

@@ -1,12 +1,12 @@
 import { Button, Layout } from '@components';
 import { ROUTES } from '@constants';
-import { IStudyModuleWithUser } from '@shared/types';
+import { ITermWithUser } from '@shared/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Term from './Term';
 
 interface Props {
-   terms: Array<IStudyModuleWithUser>;
+   terms: Array<ITermWithUser>;
 }
 
 export const Home = ({ terms }: Props) => {

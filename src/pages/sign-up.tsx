@@ -1,5 +1,5 @@
+import { SignUp } from '@screens';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
-import { SignUp } from 'src/screens';
 
 export const getServerSideProps = withAuthUserSSR({
    whenAuthed: AuthAction.REDIRECT_TO_APP,

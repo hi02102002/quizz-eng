@@ -1,7 +1,7 @@
 import { Button, Input, Layout } from '@components';
 import { storage } from '@lib/firebase';
 import { createTerm, editTerm } from '@services';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { countStudySetHaveValue } from '@utils';
 import { deleteObject, ref } from 'firebase/storage';
 import { useAuthUser } from 'next-firebase-auth';
@@ -15,7 +15,7 @@ import Study from './Study';
 interface Props {
    title?: string;
    description?: string;
-   flashcards?: Array<IStudy>;
+   flashcards?: Array<IFlashcard>;
    type: 'edit' | 'create';
    id?: string;
 }
@@ -25,7 +25,7 @@ const Create = (props: Props) => {
    const [description, setDescription] = useState<string>(
       props.description || ''
    );
-   const [flashcards, setFlashCards] = useState<Array<IStudy>>(
+   const [flashcards, setFlashCards] = useState<Array<IFlashcard>>(
       props.flashcards || [
          {
             definition: '',
@@ -40,7 +40,7 @@ const Create = (props: Props) => {
    const router = useRouter();
    const [loadingCreate, setLoadingCreate] = useState<boolean>(false);
 
-   const handleChange = (input: IStudy, index: number) => {
+   const handleChange = (input: IFlashcard, index: number) => {
       setFlashCards((prevStates) => {
          return prevStates.map((item, _index) => {
             if (_index === index) return input;

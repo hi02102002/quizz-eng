@@ -1,5 +1,5 @@
 import { db } from '@lib/firebase';
-import { IStudyModuleWithUser } from '@shared/types';
+import { ITermWithUser } from '@shared/types';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getUserById } from './getUserById';
 
@@ -17,6 +17,6 @@ export const getAllTerm = async (userId: string) => {
             email: user?.email,
             username: user?.username,
          },
-      } as IStudyModuleWithUser;
+      } as ITermWithUser;
    });
 };

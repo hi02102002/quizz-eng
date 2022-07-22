@@ -1,12 +1,12 @@
 import { Input } from '@components';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import Image from 'next/image';
 import { useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { FiVolume2 } from 'react-icons/fi';
 
 interface Props {
-   flashCard: IStudy;
+   flashCard: IFlashcard;
    onUpdate: (term: string, definition: string) => void;
    onTextToSpeed: () => void;
 }

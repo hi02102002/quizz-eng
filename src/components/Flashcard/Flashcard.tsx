@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { handleTextToSpeed } from '@services';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { useEffect, useState } from 'react';
 import { FiVolume2 } from 'react-icons/fi';
 
 interface Props {
-   flashCard: IStudy;
+   flashCard: IFlashcard;
    isActive: boolean;
    isDetail?: boolean;
    isReverser?: boolean;
@@ -54,11 +54,11 @@ const FlashCard = ({ flashCard, isActive, isReverser, isDetail }: Props) => {
                {isReverser ? (
                   <>
                      {flashCard.imgUrl && (
-                        <div className="max-w-[40%]">
+                        <div className="max-w-[40%] mr-4">
                            <img
                               src={flashCard.imgUrl}
                               alt=""
-                              className="w-full object-contain h-full"
+                              className="w-28 object-contain h-28 rounded"
                            />
                         </div>
                      )}
@@ -104,7 +104,7 @@ const FlashCard = ({ flashCard, isActive, isReverser, isDetail }: Props) => {
                ) : (
                   <>
                      {flashCard.imgUrl && (
-                        <div className="max-w-[40%]">
+                        <div className="max-w-[40%] mr-4 ">
                            <img
                               src={flashCard.imgUrl}
                               alt=""

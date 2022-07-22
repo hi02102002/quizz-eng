@@ -1,7 +1,7 @@
+import { Write } from '@screens';
 import { getOneTerm } from '@services';
 import { ITermWithUser } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
-import Term from 'src/screens/Term/Term';
 
 interface Props {
    term: ITermWithUser;
@@ -21,4 +21,4 @@ export const getServerSideProps = withAuthUserSSR({
 
 export default withAuthUser<Props>({
    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-})(Term);
+})(Write);

@@ -1,5 +1,5 @@
 import { db } from '@lib/firebase';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { doc, setDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
@@ -7,7 +7,7 @@ export const createTerm = async (
    userId: string,
    title: string,
    description: string,
-   studySets: Array<IStudy>
+   studySets: Array<IFlashcard>
 ) => {
    const id = uuid();
 

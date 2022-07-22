@@ -2,7 +2,7 @@
 import { Button, Input, Spiner } from '@components';
 import { useDebounce } from '@hooks';
 import { storage } from '@lib/firebase';
-import { IStudy, IValueImage } from '@shared/types';
+import { IFlashcard, IValueImage } from '@shared/types';
 import {
    deleteObject,
    getDownloadURL,
@@ -22,8 +22,8 @@ import { CgTrash } from 'react-icons/cg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 interface Props {
    index: number;
-   value: IStudy;
-   onChange: (input: IStudy) => void;
+   value: IFlashcard;
+   onChange: (input: IFlashcard) => void;
    onRemove: () => void;
 }
 

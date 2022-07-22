@@ -1,5 +1,5 @@
 import { db } from '@lib/firebase';
-import { IStudyModule } from '@shared/types';
+import { IFlashcardModule } from '@shared/types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export const updateFlashCard = async (
@@ -13,7 +13,7 @@ export const updateFlashCard = async (
    const termSnap = await getDoc(termRef);
 
    if (termSnap.exists()) {
-      const term = termSnap.data() as IStudyModule;
+      const term = termSnap.data() as IFlashcardModule;
       const newFlashCards = term.flashcards.map((flashcard) => {
          if (flashcard.id === flashcardId) {
             return {

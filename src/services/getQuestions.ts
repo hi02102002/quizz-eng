@@ -1,4 +1,4 @@
-import { IAnswer, IQuestion, IStudyModuleWithUser } from '@shared/types';
+import { IAnswer, ITermWithUser, IQuestion } from '@shared/types';
 import { getOneTerm } from './getOneTerm';
 export const getQuestions = async (termId: string) => {
    const term = await getOneTerm(termId);
@@ -32,7 +32,7 @@ const random = (min: number, max: number) =>
    Math.floor(Math.random() * (max - min)) + min;
 
 const getAnswers = (
-   term: IStudyModuleWithUser,
+   term: ITermWithUser,
    flashcardId: string,
    currentAnswer: IAnswer
 ) => {

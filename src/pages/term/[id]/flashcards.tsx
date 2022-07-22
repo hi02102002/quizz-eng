@@ -1,10 +1,10 @@
 import { Flashcards } from '@screens';
 import { getOneTerm } from '@services';
-import { IStudyModuleWithUser } from '@shared/types';
+import { ITerm } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
 interface Props {
-   term: IStudyModuleWithUser;
+   term: ITerm;
 }
 
 export const getServerSideProps = withAuthUserSSR({

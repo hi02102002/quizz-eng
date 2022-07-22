@@ -1,10 +1,10 @@
 import { db } from '@lib/firebase';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export const editTerm = async (
    idTerm: string,
-   flashcards: Array<IStudy>,
+   flashcards: Array<IFlashcard>,
    title: string,
    description: string
 ) => {

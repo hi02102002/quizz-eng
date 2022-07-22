@@ -2,7 +2,7 @@ import { Button, Layout } from '@components';
 import { ROUTES } from '@constants';
 import { db } from '@lib/firebase';
 import { handleTextToSpeed, updateFlashCard } from '@services';
-import { IStudy, IStudyModuleWithUser } from '@shared/types';
+import { IFlashcard, ITermWithUser } from '@shared/types';
 import { deleteDoc, doc } from 'firebase/firestore';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,16 +13,18 @@ import FlashCardPreviews from './FlashCardPreviews';
 import Sidebar from './Sidebar';
 
 interface Props {
-   term: IStudyModuleWithUser;
+   term: ITermWithUser;
 }
 
 const Term = ({ term }: Props) => {
-   const [flashCards, setFlashCards] = useState<Array<IStudy>>(term.flashcards);
+   const [flashCards, setFlashCards] = useState<Array<IFlashcard>>(
+      term.flashcards
+   );
    const router = useRouter();
 
    const handleUpdate = async (
       termId: string,
-      currentFlashcard: IStudy,
+      currentFlashcard: IFlashcard,
       lexicon: string,
       definition: string
    ) => {

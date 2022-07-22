@@ -1,4 +1,4 @@
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { EffectCards, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 interface Props {
-   flashCards: Array<IStudy>;
+   flashCards: Array<IFlashcard>;
 }
 
 const FlashCardPreviews = ({ flashCards }: Props) => {

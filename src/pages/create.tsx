@@ -1,12 +1,12 @@
 import { Spiner } from '@components';
 import { Create } from '@screens';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
 interface Props {
    title?: string;
    description?: string;
-   studySets?: Array<IStudy>;
+   studySets?: Array<IFlashcard>;
    type: 'edit' | 'create';
 }
 

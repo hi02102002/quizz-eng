@@ -1,7 +1,6 @@
 import { Button } from '@components';
 import { ROUTES } from '@constants';
 import { IQuestion } from '@shared/types';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { MdClose } from 'react-icons/md';
@@ -95,17 +94,10 @@ const Questions = ({ questions, termId }: Props) => {
                      ></path>
                   </svg>
                   <span className="text-[#586380] text-base font-semibold">
-                     Flashcards
+                     Questions
                   </span>
                </div>
-               <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center flex-col text-center text-[#586380] text-base font-semibold ">
-                  <span className="pagination-header"></span>
-                  <Link href="/">
-                     <a className="hover:text-mainColor transition-all">
-                        Tuan 1
-                     </a>
-                  </Link>
-               </div>
+
                <Button
                   className="w-10 h-10 flex items-center justify-center border-[#d9dde8] !border border-solid !p-0 hover:bg-[#d9dde8] transition-all "
                   onClick={() => {

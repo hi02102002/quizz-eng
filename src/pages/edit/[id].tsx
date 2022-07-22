@@ -1,13 +1,13 @@
 import { Spiner } from '@components';
 import { Create } from '@screens';
 import { getOneTerm } from '@services';
-import { IStudy } from '@shared/types';
+import { IFlashcard } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
 interface Props {
    title?: string;
    description?: string;
-   flashcards?: Array<IStudy>;
+   flashcards?: Array<IFlashcard>;
    type: 'edit' | 'create';
 }
 
