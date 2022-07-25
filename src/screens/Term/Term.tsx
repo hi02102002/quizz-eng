@@ -56,7 +56,7 @@ const Term = ({ term }: Props) => {
 
    return (
       <Layout>
-         <div className="p-10 flex-1">
+         <div className="md:p-10 p-6 flex-1 overflow-x-hidden">
             <div className="space-y-2">
                <h1 className="text-[32px] font-bold ">{term.title}</h1>
                <span className="font-semibold text-[#586380] text-sm">
@@ -64,14 +64,14 @@ const Term = ({ term }: Props) => {
                </span>
             </div>
             <div className="mt-8">
-               <div className="mr-[21.25rem]">
-                  <div className="flex space-x-14">
+               <div className="lg:mr-[21.25rem] ">
+                  <div className="flex md:flex-row flex-col-reverse md:space-x-14">
                      <Sidebar termId={term.id} />
                      <div className="flex-1 max-w-[46rem]">
                         <FlashCardPreviews flashCards={flashCards} />
                      </div>
                   </div>
-                  <div className="flex items-center justify-between py-8">
+                  <div className="flex items-center justify-between py-8 md:flex-row flex-col gap-4">
                      <div className="flex items-center space-x-4">
                         <Image
                            src={term.user.avatar}

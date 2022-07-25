@@ -1,6 +1,7 @@
 export { createTerm } from './createTerm';
 export { editTerm } from './editTerm';
 export { getAllTerm } from './getAllTerm';
+export { getGames } from './getGames';
 export { getOneTerm } from './getOneTerm';
 export { getSoundText } from './getSoundText';
 export { getUserById } from './getUserById';

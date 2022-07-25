@@ -1,5 +1,5 @@
 .btn {
-   @apply outline-none outline-0 border-0 bg-transparent px-[0.75rem] py-[.375rem] text-lightTextGray rounded flex items-center space-x-4 text-sm leading-[1.33333333] font-semibold transition-all min-h-[32px];
+   @apply outline-none outline-0 border-0 bg-transparent px-[0.75rem] py-[.375rem] text-lightTextGray rounded flex items-center space-x-4 text-sm leading-[1.33333333] font-semibold transition-all min-h-[32px] justify-center;
 
    &:disabled {
       @apply opacity-80;

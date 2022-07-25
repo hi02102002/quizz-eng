@@ -191,7 +191,7 @@ const Create = (props: Props) => {
          <div className="py-6 bg-[#f6f7fb]">
             <div className="h-[6.875rem]">
                <div ref={headerRef} className=" bg-[#f6f7fb]">
-                  <div className="flex items-center justify-between h-[6.875rem]  ui-container">
+                  <div className="flex items-center justify-between gap-4 h-[6.875rem]  ui-container">
                      <h2 className="text-xl font-bold">
                         {props.type === 'create' ? (
                            ' Create a new study set'

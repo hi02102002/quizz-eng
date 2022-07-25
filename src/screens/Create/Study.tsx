@@ -115,7 +115,17 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
       }
 
       return (
-         <Swiper slidesPerView={4} spaceBetween={16} className="select-none">
+         <Swiper
+            breakpoints={{
+               768: {
+                  slidesPerView: 4,
+                  spaceBetween: 16,
+               },
+            }}
+            slidesPerView={2}
+            spaceBetween={16}
+            className="select-none"
+         >
             {searchImages.map((img) => {
                return (
                   <SwiperSlide key={img.imageId} className="relative">
@@ -195,8 +205,8 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
                <CgTrash className="w-[18px] h-[18px]" />
             </button>
          </div>
-         <div className="p-3 pb-6 flex items-start">
-            <div className="w-full p-3 pr-6">
+         <div className="p-3 pb-6 flex items-start md:flex-row flex-col">
+            <div className="w-full p-3 md:pr-6">
                <Input
                   label="Term"
                   placeholder="Enter term"
@@ -205,7 +215,7 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
                   name="lexicon"
                />
             </div>
-            <div className="w-full p-3 pl-6">
+            <div className="w-full p-3 md:pl-6">
                <div className="flex items-start space-x-6">
                   <Input
                      label="Definition"
@@ -244,8 +254,8 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
          </div>
          {showSearchImage && (
             <div className="py-3 px-6 ">
-               <div className="flex items-center space-x-8 mb-6">
-                  <div className="max-w-[250px] w-full flex-shrink-0">
+               <div className="flex md:items-center gap-8 mb-6 md:flex-row flex-col">
+                  <div className="md:max-w-[250px] w-full flex-shrink-0">
                      <Input
                         placeholder="Search Quizz Images..."
                         onChange={(e) => {

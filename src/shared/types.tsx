@@ -88,3 +88,15 @@ export interface ICurrentIndex {
    flashcardIndex: number;
    termId: string;
 }
+
+export const ItemTypes = {
+   MATCH_QUESTION: 'MATCH_QUESTION',
+};
+
+export interface IGame {
+   id: string;
+   name: string;
+   flashcardId: string;
+   imgUrl?: string;
+   stat: '' | 'CORRECT' | 'WRONG' | 'DELETED';
+}

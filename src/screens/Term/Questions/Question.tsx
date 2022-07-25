@@ -102,7 +102,7 @@ const Question = ({
             </div>
             <div className="flex-1">
                <ul
-                  className="h-full grid grid-cols-2 gap-6"
+                  className="h-full grid grid-cols-1 md:grid-cols-2 md:gap-6 gap-4"
                   style={{
                      pointerEvents: isChoose ? 'none' : undefined,
                   }}

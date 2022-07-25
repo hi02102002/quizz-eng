@@ -192,9 +192,15 @@ const WriteItem = ({ flashcard, onAnswer, onNext, isTryAgain }: Props) => {
                         Don&apos;t know
                      </button>
                   </div>
-                  {flashcard.imgUrl && <img src={flashcard.imgUrl} alt="" />}
+                  {flashcard.imgUrl && (
+                     <img
+                        src={flashcard.imgUrl}
+                        alt=""
+                        className="h-[100px] w-[100px] object-cover rounded mt-4"
+                     />
+                  )}
                </div>
-               <div className="flex items-center space-x-8 mt-10">
+               <div className="flex items-center md:flex-row flex-col  gap-8 mt-10">
                   <Input
                      label="type the answer"
                      onChange={(e) => {

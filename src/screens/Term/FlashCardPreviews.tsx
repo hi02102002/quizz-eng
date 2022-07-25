@@ -19,7 +19,7 @@ const FlashCardPreviews = ({ flashCards }: Props) => {
    return (
       <div className="p-2">
          <Swiper
-            className="h-[25rem] !overflow-visible  w-96"
+            className="h-[25rem] !overflow-visible  md:w-96"
             effect={'cards'}
             modules={[EffectCards, Pagination, Navigation]}
             pagination={{

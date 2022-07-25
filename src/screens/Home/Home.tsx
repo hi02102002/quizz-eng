@@ -20,12 +20,12 @@ export const Home = ({ terms }: Props) => {
 
    return (
       <Layout>
-         <div className="py-10 flex-1 items-center justify-center flex">
+         <div className="md:py-10 py-4 flex-1 items-center justify-center flex">
             {terms.length ? (
                <div className="ui-container w-full self-start">
                   <>
                      <h1 className="text-xl font-bold mb-6">Terms</h1>
-                     <ul className="grid grid-cols-3 gap-3">
+                     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         {terms.map((term) => {
                            return (
                               <li key={term.id}>

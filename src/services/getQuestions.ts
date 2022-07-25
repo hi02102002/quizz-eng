@@ -1,4 +1,5 @@
 import { IAnswer, ITermWithUser, IQuestion } from '@shared/types';
+import { random } from '@utils';
 import { getOneTerm } from './getOneTerm';
 export const getQuestions = async (termId: string) => {
    const term = await getOneTerm(termId);
@@ -27,9 +28,6 @@ export const getQuestions = async (termId: string) => {
 const checkExist = function (id: string, answerChoices: IQuestion['answers']) {
    return answerChoices.some((el) => el.answerId === id);
 };
-
-const random = (min: number, max: number) =>
-   Math.floor(Math.random() * (max - min)) + min;
 
 const getAnswers = (
    term: ITermWithUser,

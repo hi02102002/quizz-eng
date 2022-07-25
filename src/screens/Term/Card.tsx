@@ -28,9 +28,9 @@ const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
    return (
       <div className="p-4 bg-white shadow-card rounded">
          <div className="flex">
-            <div className="flex items-center w-[calc(100%_-_6.75rem)] h-full ">
+            <div className="flex md:items-center md:flex-row flex-col w-[calc(100%_-_6.75rem)] h-full ">
                <div
-                  className="w-[40%] px-8 h-full"
+                  className="w-full md:w-[40%] md:px-8 px-2 h-full"
                   style={{
                      borderRight: '.125rem solid #f7f7fb',
                   }}
@@ -47,7 +47,7 @@ const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
                      <span>{flashCard.lexicon}</span>
                   )}
                </div>
-               <div className="flex space-x-4 w-[60%] px-8  items-center">
+               <div className="flex space-x-4 w-full md:w-[60%] md:px-8 px-2  items-center">
                   <div className="w-[200px]">
                      {isEdit ? (
                         <Input
@@ -58,7 +58,7 @@ const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
                            value={definition}
                         />
                      ) : (
-                        <span className="block text-center ">
+                        <span className="block md:text-center ">
                            {flashCard.definition}
                         </span>
                      )}

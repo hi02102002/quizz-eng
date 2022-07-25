@@ -11,7 +11,7 @@ const calcPercent = (value: number, total: number) => {
 
 const Sidebar = ({ correct, incorrect, remaining, total }: Props) => {
    return (
-      <aside className="max-w-[200px] w-full">
+      <aside className="md:max-w-[200px] w-full">
          <div className="p-4 rounded bg-white">
             <div className="flex flex-col space-y-4">
                <div className="flex flex-col w-full space-y-2">
