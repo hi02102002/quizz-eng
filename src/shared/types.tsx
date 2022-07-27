@@ -1,7 +1,7 @@
 export interface ITerm {
    id: string;
    docId?: string;
-   userId: string;
+   authorId: string;
    title: string;
    description: string;
    numOfLexicon: number;
@@ -9,6 +9,9 @@ export interface ITerm {
    isSaved: boolean;
    flashcards: Array<IFlashcard>;
    currentIndexFlashcard: number;
+   users: Array<string>; // chua mang id cua user ma luu cai do
+   status: 'PUBLIC' | 'PRIVATE';
+   createdAt: string;
 }
 
 export interface ITermWithUser extends ITerm {

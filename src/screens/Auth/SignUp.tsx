@@ -7,7 +7,7 @@ import classNames from 'classnames/bind';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -52,50 +52,53 @@ const SignUp = () => {
    });
    const [loading, setLoading] = useState<boolean>(false);
 
-   const onSubmit = async ({ email, password, username }: IFormInputs) => {
-      try {
-         setLoading(true);
+   const onSubmit = useCallback(
+      async ({ email, password, username }: IFormInputs) => {
+         try {
+            setLoading(true);
 
-         const userExist = await getUserByUsername(username);
+            const userExist = await getUserByUsername(username);
 
-         if (userExist) {
-            toast('Username already use by other user.', {
-               type: 'error',
+            if (userExist) {
+               toast('Username already use by other user.', {
+                  type: 'error',
+               });
+               setLoading(false);
+               return;
+            }
+
+            const { user } = await createUserWithEmailAndPassword(
+               auth,
+               email,
+               password
+            );
+
+            await updateProfile(user, {
+               displayName: username,
+               photoURL:
+                  'https://firebasestorage.googleapis.com/v0/b/quizz-eng.appspot.com/o/avatar.png?alt=media&token=5cd3a44f-31f2-49a8-bd57-824f2664c97c',
+            });
+
+            await setDoc(doc(db, 'users', user.uid), {
+               username,
+               avatar:
+                  'https://firebasestorage.googleapis.com/v0/b/quizz-eng.appspot.com/o/avatar.png?alt=media&token=5cd3a44f-31f2-49a8-bd57-824f2664c97c',
+               email: user.email,
+               id: user.uid,
             });
             setLoading(false);
-            return;
+            toast('Sign up successfully.', {
+               type: 'success',
+            });
+         } catch (error: any) {
+            setLoading(false);
+            toast(error.message, {
+               type: 'error',
+            });
          }
-
-         const { user } = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-         );
-
-         await updateProfile(user, {
-            displayName: username,
-            photoURL:
-               'https://firebasestorage.googleapis.com/v0/b/quizz-eng.appspot.com/o/avatar.png?alt=media&token=5cd3a44f-31f2-49a8-bd57-824f2664c97c',
-         });
-
-         await setDoc(doc(db, 'users', user.uid), {
-            username,
-            avatar:
-               'https://firebasestorage.googleapis.com/v0/b/quizz-eng.appspot.com/o/avatar.png?alt=media&token=5cd3a44f-31f2-49a8-bd57-824f2664c97c',
-            email: user.email,
-            id: user.uid,
-         });
-         setLoading(false);
-         toast('Sign up successfully.', {
-            type: 'success',
-         });
-      } catch (error: any) {
-         setLoading(false);
-         toast(error.message, {
-            type: 'error',
-         });
-      }
-   };
+      },
+      []
+   );
 
    return (
       <AuthContainer

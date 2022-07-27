@@ -104,7 +104,7 @@ const Game = ({ games, termId }: Props) => {
       setBestScore(JSON.parse(localStorage.getItem('best-score') as string));
    }, []);
 
-   const handleTryAgain = () => {
+   const handleTryAgain = useCallback(() => {
       setGamesState((games) => {
          return games
             .sort(() => Math.random() - 0.5)
@@ -119,7 +119,7 @@ const Game = ({ games, termId }: Props) => {
       setIsDone(false);
       setIsTryAgain(true);
       setIsStopTimer(false);
-   };
+   }, []);
 
    useEffect(() => {
       let timer: NodeJS.Timer;

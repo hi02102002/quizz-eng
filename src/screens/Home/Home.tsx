@@ -1,9 +1,8 @@
-import { Button, Layout } from '@components';
+import { Button, Layout, Term } from '@components';
 import { ROUTES } from '@constants';
 import { ITermWithUser } from '@shared/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import Term from './Term';
 
 interface Props {
    terms: Array<ITermWithUser>;

@@ -1,25 +1,56 @@
-import { ROUTES } from '@constants';
+import { ROUTES, SIDE_BAR_LIST } from '@constants';
+import { useClickOutside } from '@hooks';
 import { useAuthUser } from 'next-firebase-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import Button from '../Button';
+import Dropdown from './Dropdown';
 
 const Header = () => {
    const router = useRouter();
    const user = useAuthUser();
+   const [isShowDropdown, setIsShowDropdown] = useState<boolean>(false);
+   const dropdownRef = useRef<HTMLDivElement | null>(null);
+   useClickOutside(dropdownRef, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsShowDropdown(false);
+   });
 
    return (
       <header className="h-header flex items-center px-4 border-b border-solid border-[#edeff4] fixed top-0 left-0 right-0 bg-white z-[1000]">
          <div className="flex items-center justify-between w-full flex-1">
-            <Link href={ROUTES.HOME}>
-               <a className="!no-underline">
-                  <h3 className="text-3xl font-bold text-mainColor dark:text-white ">
-                     Quizz
-                  </h3>
-               </a>
-            </Link>
+            <div className="flex items-center gap-4">
+               <Link href={ROUTES.HOME}>
+                  <a className="!no-underline">
+                     <h3 className="text-3xl font-bold text-mainColor dark:text-white ">
+                        Quizz
+                     </h3>
+                  </a>
+               </Link>
+               <ul className="flex items-center gap-4">
+                  {SIDE_BAR_LIST.map((item) => {
+                     return (
+                        <li key={item.id}>
+                           <Link href={item.link}>
+                              <a
+                                 className={`!no-underline font-semibold relative ${
+                                    router.pathname === item.link
+                                       ? 'after:absolute after:content-[""] after:w-2 after:h-2 after:rounded-full after:bg-mainColor after:-bottom-2 after:left-[50%] after:translate-x-[-50%]'
+                                       : ''
+                                 }`}
+                              >
+                                 {item.name}
+                              </a>
+                           </Link>
+                        </li>
+                     );
+                  })}
+               </ul>
+            </div>
             <div className="flex items-center space-x-4">
                {user?.id ? (
                   <>
@@ -33,24 +64,26 @@ const Header = () => {
                         <span>Create</span>
                         <BiPlus className="w-4 h-4" />
                      </Button>
-                     <div
-                        className="cursor-pointer"
-                        onClick={() => {
-                           user.signOut();
-                        }}
-                     >
-                        <Image
-                           src={
-                              (user.photoURL as string) || '/images/avatar.png'
-                           }
-                           alt={(user.displayName as string) || 'user'}
-                           width={32}
-                           height={32}
-                           className="rounded-full"
-                           style={{
-                              boxShadow: 'inset 0 0 0.0625rem rgb(0 0 0 / 30%)',
+                     <div className="relative" ref={dropdownRef}>
+                        <div
+                           className="cursor-pointer"
+                           onClick={() => {
+                              setIsShowDropdown(!isShowDropdown);
                            }}
-                        />
+                        >
+                           <Image
+                              src={user.photoURL as string}
+                              alt={(user.displayName as string) || 'user'}
+                              width={32}
+                              height={32}
+                              className="rounded-full"
+                              style={{
+                                 boxShadow:
+                                    'inset 0 0 0.0625rem rgb(0 0 0 / 30%)',
+                              }}
+                           />
+                        </div>
+                        {isShowDropdown && <Dropdown />}
                      </div>
                   </>
                ) : (

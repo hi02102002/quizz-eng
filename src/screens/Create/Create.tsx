@@ -1,12 +1,12 @@
 import { Button, Input, Layout } from '@components';
 import { storage } from '@lib/firebase';
-import { createTerm, editTerm } from '@services';
+import { termServices } from '@services';
 import { IFlashcard } from '@shared/types';
 import { countStudySetHaveValue } from '@utils';
 import { deleteObject, ref } from 'firebase/storage';
 import { useAuthUser } from 'next-firebase-auth';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { v4 } from 'uuid';
@@ -39,15 +39,16 @@ const Create = (props: Props) => {
    const headerRef = useRef<HTMLDivElement | null>(null);
    const router = useRouter();
    const [loadingCreate, setLoadingCreate] = useState<boolean>(false);
+   const [status, setStatus] = useState<'PUBLIC' | 'PRIVATE'>('PUBLIC');
 
-   const handleChange = (input: IFlashcard, index: number) => {
+   const handleChange = useCallback((input: IFlashcard, index: number) => {
       setFlashCards((prevStates) => {
          return prevStates.map((item, _index) => {
             if (_index === index) return input;
             return item;
          });
       });
-   };
+   }, []);
 
    const handleAddCard = () => {
       setFlashCards((prevStates) => {
@@ -59,24 +60,27 @@ const Create = (props: Props) => {
       });
    };
 
-   const handleRemoveCard = (id: string, _index: number) => {
-      setFlashCards((prevStates) => {
-         return prevStates.filter((studySet) => {
-            return id !== studySet.id;
+   const handleRemoveCard = useCallback(
+      (id: string, _index: number) => {
+         setFlashCards((prevStates) => {
+            return prevStates.filter((studySet) => {
+               return id !== studySet.id;
+            });
          });
-      });
 
-      const desertRef = ref(storage, flashcards[_index].id);
-      deleteObject(desertRef)
-         .then(() => {
-            console.log('xoa thanh cong');
-         })
-         .catch((error) => {
-            console.log('xoa that bai');
-         });
-   };
+         const desertRef = ref(storage, flashcards[_index].id);
+         deleteObject(desertRef)
+            .then(() => {
+               console.log('xoa thanh cong');
+            })
+            .catch((error) => {
+               console.log('xoa that bai');
+            });
+      },
+      [flashcards]
+   );
 
-   const handleCreate = async () => {
+   const handleCreate = useCallback(async () => {
       if (flashcards.length < 2 || title.trim().length === 0) {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
@@ -94,11 +98,12 @@ const Create = (props: Props) => {
                };
             });
 
-         const idTerm = await createTerm(
+         const idTerm = await termServices.createTerm(
             user.id as string,
             title,
             description,
-            filterFlashcards
+            filterFlashcards,
+            status
          );
          toast('Add successfully', {
             type: 'success',
@@ -111,9 +116,9 @@ const Create = (props: Props) => {
          });
          setLoadingCreate(false);
       }
-   };
+   }, [description, router, flashcards, status, title, user.id]);
 
-   const handleUpdate = async () => {
+   const handleUpdate = useCallback(async () => {
       if (flashcards.length < 2 || title.trim().length === 0) {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
@@ -131,11 +136,12 @@ const Create = (props: Props) => {
                };
             });
 
-         const idTerm = await editTerm(
+         const idTerm = await termServices.updateTerm(
             props.id as string,
             filterFlashcards,
             title,
-            description
+            description,
+            status
          );
          toast('Edit successfully', {
             type: 'success',
@@ -148,7 +154,7 @@ const Create = (props: Props) => {
          });
          setLoadingCreate(false);
       }
-   };
+   }, [props.id, description, flashcards, router, status, title]);
 
    useEffect(() => {
       const body = document.querySelector('body');

@@ -20,10 +20,10 @@ const Question = ({
    const [chooseAnswer, setChooseAnswer] = useState<string>('');
    const [isChoose, setIsChoose] = useState<boolean>(false);
 
-   const handleChoose = (answerId: string) => {
+   const handleChoose = useCallback((answerId: string) => {
       setChooseAnswer(answerId);
       setIsChoose(true);
-   };
+   }, []);
 
    useEffect(() => {
       if (isChoose) {
@@ -107,7 +107,7 @@ const Question = ({
                      pointerEvents: isChoose ? 'none' : undefined,
                   }}
                >
-                  {question.answers.map((answer, index) => {
+                  {question.answers?.map((answer, index) => {
                      return (
                         <li key={answer.answerId}>
                            <Answer

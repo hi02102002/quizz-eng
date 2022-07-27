@@ -46,31 +46,37 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
    const inputFileImageRef = useRef<HTMLInputElement | null>(null);
    const [loadingUploadFile, setLoadingUpLoadFile] = useState<boolean>(false);
 
-   const handleChange = (e: FormEvent<HTMLTextAreaElement>) => {
-      onChange({
-         ...value,
-         [e.currentTarget.name]: e.currentTarget.value,
-      });
-   };
-
-   const handleUploadOwnImage = async (e: ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      const id = value.id;
-      if (file) {
-         setLoadingUpLoadFile(true);
-         const imgRef = ref(storage, id);
-         await uploadBytes(imgRef, file);
-         const url = await getDownloadURL(imgRef);
-         setChooseImage({
-            type: 'file',
-            url,
+   const handleChange = useCallback(
+      (e: FormEvent<HTMLTextAreaElement>) => {
+         onChange({
+            ...value,
+            [e.currentTarget.name]: e.currentTarget.value,
          });
-         setLoadingUpLoadFile(false);
-      }
-      setShowSearchImage(false);
-   };
+      },
+      [value, onChange]
+   );
 
-   const handleRemoveUploadedOwnImage = async () => {
+   const handleUploadOwnImage = useCallback(
+      async (e: ChangeEvent<HTMLInputElement>) => {
+         const file = e.target.files?.[0];
+         const id = value.id;
+         if (file) {
+            setLoadingUpLoadFile(true);
+            const imgRef = ref(storage, id);
+            await uploadBytes(imgRef, file);
+            const url = await getDownloadURL(imgRef);
+            setChooseImage({
+               type: 'file',
+               url,
+            });
+            setLoadingUpLoadFile(false);
+         }
+         setShowSearchImage(false);
+      },
+      [value.id]
+   );
+
+   const handleRemoveUploadedOwnImage = useCallback(async () => {
       if (chooseImage.type === 'file') {
          const desertRef = ref(storage, value.id);
          deleteObject(desertRef)
@@ -90,7 +96,7 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
             url: '',
          });
       }
-   };
+   }, [chooseImage.type, value.id]);
 
    useEffect(() => {
       onChange({

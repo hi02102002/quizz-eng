@@ -1,5 +1,5 @@
 import { Game } from '@screens';
-import { getGames } from '@services';
+import { termServices } from '@services';
 import { IGame } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
@@ -11,7 +11,7 @@ interface Props {
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ params }) => {
-   const games = await getGames(params?.id as string);
+   const games = await termServices.getGames(params?.id as string);
 
    return {
       props: {

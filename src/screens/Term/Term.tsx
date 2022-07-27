@@ -1,12 +1,13 @@
 import { Button, Layout } from '@components';
 import { ROUTES } from '@constants';
-import { db } from '@lib/firebase';
-import { handleTextToSpeed, updateFlashCard } from '@services';
+import { handleTextToSpeed, termServices } from '@services';
 import { IFlashcard, ITermWithUser } from '@shared/types';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { isUserInUsersArray } from '@utils';
+import { useAuthUser } from 'next-firebase-auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { BsBookmark } from 'react-icons/bs';
 import { FiEdit, FiTrash } from 'react-icons/fi';
 import Card from './Card';
 import FlashCardPreviews from './FlashCardPreviews';
@@ -16,43 +17,61 @@ interface Props {
    term: ITermWithUser;
 }
 
-const Term = ({ term }: Props) => {
+const Term = (props: Props) => {
+   const user = useAuthUser();
    const [flashCards, setFlashCards] = useState<Array<IFlashcard>>(
-      term.flashcards
+      props.term.flashcards
    );
    const router = useRouter();
+   const [term, setTerm] = useState<ITermWithUser>(props.term);
 
-   const handleUpdate = async (
-      termId: string,
-      currentFlashcard: IFlashcard,
-      lexicon: string,
-      definition: string
-   ) => {
-      if (
-         lexicon.trim() === currentFlashcard.lexicon &&
-         definition.trim() === currentFlashcard.definition
-      ) {
-         return;
-      }
-      await updateFlashCard(termId, currentFlashcard.id, lexicon, definition);
-      setFlashCards((prevStates) => {
-         return prevStates.map((flashcard) => {
-            if (flashcard.id === currentFlashcard.id) {
-               return {
-                  ...flashcard,
-                  lexicon,
-                  definition,
-               };
-            }
-            return flashcard;
+   const handleUpdate = useCallback(
+      async (
+         termId: string,
+         currentFlashcard: IFlashcard,
+         lexicon: string,
+         definition: string
+      ) => {
+         if (
+            lexicon.trim() === currentFlashcard.lexicon &&
+            definition.trim() === currentFlashcard.definition
+         ) {
+            return;
+         }
+         await termServices.updateFlashCard(
+            termId,
+            currentFlashcard.id,
+            lexicon,
+            definition
+         );
+         setFlashCards((prevStates) => {
+            return prevStates.map((flashcard) => {
+               if (flashcard.id === currentFlashcard.id) {
+                  return {
+                     ...flashcard,
+                     lexicon,
+                     definition,
+                  };
+               }
+               return flashcard;
+            });
          });
-      });
-   };
+      },
+      []
+   );
 
-   const handleRemoveTerm = async () => {
-      await deleteDoc(doc(db, 'terms', term.id));
+   const handleRemoveTerm = useCallback(async () => {
+      await termServices.removeTerm(user.id as string, term.id);
       router.push(ROUTES.HOME);
-   };
+   }, [router, term.id, user.id]);
+
+   const handleSaveTerm = useCallback(async () => {
+      await termServices.saveTerm(user.id as string, term.id);
+      setTerm({
+         ...term,
+         users: term.users.concat(user.id as string),
+      });
+   }, [term, user.id]);
 
    return (
       <Layout>
@@ -90,19 +109,33 @@ const Term = ({ term }: Props) => {
                         </div>
                      </div>
                      <div className="flex items-center space-x-4">
-                        <Button typeBtn="dangerous" onClick={handleRemoveTerm}>
-                           <FiTrash className="w-4 h-4 mr-2" />
-                           Remove
-                        </Button>
-                        <Button
-                           typeBtn="primary"
-                           onClick={() => {
-                              router.push(`${ROUTES.EDIT}/${term.id}`);
-                           }}
-                        >
-                           <FiEdit className="w-4 h-4 mr-2" />
-                           Edit
-                        </Button>
+                        {isUserInUsersArray(user.id as string, term.users) ? (
+                           <>
+                              <Button
+                                 typeBtn="dangerous"
+                                 onClick={handleRemoveTerm}
+                              >
+                                 <FiTrash className="w-4 h-4 mr-2" />
+                                 Remove
+                              </Button>
+                              {term.authorId === user.id && (
+                                 <Button
+                                    typeBtn="primary"
+                                    onClick={() => {
+                                       router.push(`${ROUTES.EDIT}/${term.id}`);
+                                    }}
+                                 >
+                                    <FiEdit className="w-4 h-4 mr-2" />
+                                    Edit
+                                 </Button>
+                              )}
+                           </>
+                        ) : (
+                           <Button typeBtn="primary" onClick={handleSaveTerm}>
+                              <BsBookmark className="w-4 h-4 mr-2" />
+                              Save
+                           </Button>
+                        )}
                      </div>
                   </div>
                   <div className="pt-[40px]">
@@ -128,21 +161,36 @@ const Term = ({ term }: Props) => {
                                     onTextToSpeed={() => {
                                        handleTextToSpeed(flashCard.lexicon);
                                     }}
+                                    users={term.users}
+                                    authorId={term.authorId}
                                  />
                               </li>
                            );
                         })}
                      </ul>
                      <div className="flex items-center justify-center">
-                        <Button
-                           typeBtn="primary"
-                           className="mt-8 !px-8 !py-5"
-                           onClick={() => {
-                              router.push(`${ROUTES.EDIT}/${term.id}`);
-                           }}
-                        >
-                           Add or remove Terms
-                        </Button>
+                        {isUserInUsersArray(user.id as string, term.users) &&
+                           term.authorId === user.id && (
+                              <Button
+                                 typeBtn="primary"
+                                 className="mt-8 !px-8 !py-5"
+                                 onClick={() => {
+                                    router.push(`${ROUTES.EDIT}/${term.id}`);
+                                 }}
+                              >
+                                 Add or remove Terms
+                              </Button>
+                           )}
+                        {!isUserInUsersArray(user.id as string, term.users) &&
+                           term.authorId !== user.id && (
+                              <Button
+                                 typeBtn="primary"
+                                 className="mt-8 !px-8 !py-5"
+                                 onClick={handleSaveTerm}
+                              >
+                                 Save
+                              </Button>
+                           )}
                      </div>
                   </div>
                </div>

@@ -1,7 +1,9 @@
 import { Input } from '@components';
 import { IFlashcard } from '@shared/types';
+import { isUserInUsersArray } from '@utils';
+import { useAuthUser } from 'next-firebase-auth';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { FiVolume2 } from 'react-icons/fi';
 
@@ -9,21 +11,30 @@ interface Props {
    flashCard: IFlashcard;
    onUpdate: (term: string, definition: string) => void;
    onTextToSpeed: () => void;
+   users: Array<string>;
+   authorId: string;
 }
 
-const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
+const Card = ({
+   flashCard,
+   onUpdate,
+   onTextToSpeed,
+   users,
+   authorId,
+}: Props) => {
    const [term, setTerm] = useState<string>(flashCard.lexicon);
    const [definition, setDefinition] = useState<string>(flashCard.definition);
    const [isEdit, setIsEdit] = useState<boolean>(false);
+   const user = useAuthUser();
 
-   const handleUpdate = () => {
+   const handleUpdate = useCallback(() => {
       if (isEdit) {
          onUpdate(term, definition);
          setIsEdit(false);
       } else {
          setIsEdit(!isEdit);
       }
-   };
+   }, [isEdit, definition, onUpdate, term]);
 
    return (
       <div className="p-4 bg-white shadow-card rounded">
@@ -78,22 +89,25 @@ const Card = ({ flashCard, onUpdate, onTextToSpeed }: Props) => {
                </div>
             </div>
             <div className="flex-1">
-               <div className="flex items-center space-x-2">
+               <div className="flex items-center space-x-2 justify-center">
                   <button
                      className="h-10 w-10 flex items-center justify-center hover:bg-[#d9dde8] transition-all text-[#586380] rounded-full"
                      onClick={onTextToSpeed}
                   >
                      <FiVolume2 className=" w-5 h-5" />
                   </button>
-                  <button
-                     className="h-10 w-10 flex items-center justify-center hover:bg-[#d9dde8] transition-all text-[#586380] rounded-full"
-                     onClick={handleUpdate}
-                     style={{
-                        color: isEdit ? '#ffcd1f' : undefined,
-                     }}
-                  >
-                     <AiOutlineEdit className=" w-5 h-5" />
-                  </button>
+                  {isUserInUsersArray(user.id as string, users) &&
+                     authorId === user.id && (
+                        <button
+                           className="h-10 w-10 flex items-center justify-center hover:bg-[#d9dde8] transition-all text-[#586380] rounded-full"
+                           onClick={handleUpdate}
+                           style={{
+                              color: isEdit ? '#ffcd1f' : undefined,
+                           }}
+                        >
+                           <AiOutlineEdit className=" w-5 h-5" />
+                        </button>
+                     )}
                </div>
             </div>
          </div>

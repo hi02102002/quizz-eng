@@ -1,5 +1,5 @@
 import { Button, Flashcard } from '@components';
-import { updateIndexFlashcard } from '@services';
+import { termServices } from '@services';
 import { ITerm } from '@shared/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
@@ -29,7 +29,7 @@ const FlashCardsPage = ({ term }: Props) => {
    }, [index, term.flashcards.length]);
 
    useEffect(() => {
-      updateIndexFlashcard(term.id, index);
+      termServices.updateIndexFlashcard(term.id, index);
    }, [term.id, index]);
 
    useEffect(() => {

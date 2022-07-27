@@ -5,7 +5,7 @@ import { auth } from '@lib/firebase';
 import classNames from 'classnames/bind';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -36,7 +36,7 @@ const Login = () => {
       resolver: yupResolver(schema),
    });
 
-   const onSubmit = async ({ email, password }: IFormInputs) => {
+   const onSubmit = useCallback(async ({ email, password }: IFormInputs) => {
       try {
          setLoading(true);
          await signInWithEmailAndPassword(auth, email, password);
@@ -52,7 +52,7 @@ const Login = () => {
       } finally {
          setLoading(false);
       }
-   };
+   }, []);
 
    return (
       <AuthContainer

@@ -1,7 +1,7 @@
 import { Button } from '@components';
 import { IQuestion } from '@shared/types';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Swiper, { Virtual } from 'swiper';
 import { Swiper as SwiperReact, SwiperSlide } from 'swiper/react';
 import Layout from '../Layout';
@@ -20,22 +20,25 @@ const Questions = ({ questions, termId }: Props) => {
    const [index, setIndex] = useState<number>(0);
    const [isTryAgain, setIsTryAgain] = useState<boolean>(false);
 
-   const handelWhenRightAnswer = (value: boolean) => {
-      setShowButtonNext(!value);
-      if (value) {
-         setTimeout(() => {
-            swiperRef.current?.slideNext(200);
-            setIndex(index + 1);
-         }, 2000);
-         setCountRightAnswer(countRightAnswer + 1);
-      }
-   };
+   const handelWhenRightAnswer = useCallback(
+      (value: boolean) => {
+         setShowButtonNext(!value);
+         if (value) {
+            setTimeout(() => {
+               swiperRef.current?.slideNext(200);
+               setIndex(index + 1);
+            }, 2000);
+            setCountRightAnswer(countRightAnswer + 1);
+         }
+      },
+      [countRightAnswer, index]
+   );
 
-   const handleNextButton = () => {
+   const handleNextButton = useCallback(() => {
       swiperRef.current?.slideNext(200);
       setShowButtonNext(false);
       setIndex(index + 1);
-   };
+   }, [index]);
 
    const handleTryAgain = () => {
       setIndex(0);
