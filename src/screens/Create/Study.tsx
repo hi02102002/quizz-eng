@@ -130,7 +130,6 @@ const Study = ({ index, value, onChange, onRemove }: Props) => {
             }}
             slidesPerView={2}
             spaceBetween={16}
-            className="select-none"
          >
             {searchImages.map((img) => {
                return (

@@ -11,9 +11,7 @@ interface Props {
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ params }) => {
-   const questions = await termServices.getGames(params?.id as string);
-
-   console.log(questions);
+   const questions = await termServices.getQuestions(params?.id as string);
 
    return {
       props: {

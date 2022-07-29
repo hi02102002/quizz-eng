@@ -2,7 +2,7 @@ import { Button } from '@components';
 import { ROUTES } from '@constants';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { auth, db } from '@lib/firebase';
-import { getUserByUsername } from '@services';
+import { userServices } from '@services';
 import classNames from 'classnames/bind';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -57,7 +57,7 @@ const SignUp = () => {
          try {
             setLoading(true);
 
-            const userExist = await getUserByUsername(username);
+            const userExist = await userServices.getUserByUsername(username);
 
             if (userExist) {
                toast('Username already use by other user.', {

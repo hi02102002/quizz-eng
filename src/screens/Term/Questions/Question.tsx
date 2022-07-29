@@ -1,5 +1,5 @@
-import { handleTextToSpeed } from '@services';
 import { IAnswer, IQuestion } from '@shared/types';
+import { handleTextToSpeed } from '@utils';
 import { useCallback, useEffect, useState } from 'react';
 import { FiVolume2 } from 'react-icons/fi';
 import Answer from './Answer';

@@ -1,6 +1,6 @@
 import { Spiner } from '@components';
 import { Create } from '@screens';
-import { getOneTerm } from '@services';
+import { termServices } from '@services';
 import { IFlashcard } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
@@ -14,7 +14,7 @@ interface Props {
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ params }) => {
-   const term = await getOneTerm(params?.id as string);
+   const term = await termServices.getTermById(params?.id as string);
    return {
       props: {
          type: 'edit',
@@ -22,7 +22,7 @@ export const getServerSideProps = withAuthUserSSR({
          description: term.description,
          flashcards: term.flashcards,
          id: params?.id,
-      },
+      } as Props,
    };
 });
 

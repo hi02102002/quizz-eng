@@ -1,16 +1,32 @@
 import { FullPageLoading } from '@components';
 import { Profile } from '@screens';
+import { termServices, userServices } from '@services';
+import { ITermWithUser, IUser } from '@shared/types';
 import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
+
+interface Props {
+   user: IUser;
+   terms: Array<ITermWithUser>;
+}
 
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-})(async () => {
+})(async ({ params }) => {
+   const id = params?.id as string;
+
+   const user = await userServices.getUserById(id);
+
+   const terms = await termServices.getTermsByUserId(id);
+
    return {
-      props: {},
+      props: {
+         terms,
+         user,
+      } as Props,
    };
 });
 
-export default withAuthUser({
+export default withAuthUser<Props>({
    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
    whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
    whenAuthedBeforeRedirect: AuthAction.SHOW_LOADER,

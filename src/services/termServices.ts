@@ -1,13 +1,12 @@
 import { db } from '@lib/firebase';
 import {
-   IAnswer,
    IFlashcard,
    IGame,
    IQuestion,
    ITerm,
    ITermWithUser,
 } from '@shared/types';
-import { isUserInUsersArray, random } from '@utils';
+import { getAnswers, isUserInUsersArray, random } from '@utils';
 import {
    arrayRemove,
    arrayUnion,
@@ -24,7 +23,7 @@ import {
    where,
 } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
-import { getUserById } from './getUserById';
+import { userServices } from './userServices';
 export const termServices = {
    createTerm: async (
       authorId: string,
@@ -74,7 +73,7 @@ export const termServices = {
       const termRef = doc(db, 'terms', termId);
       const termSnap = await getDoc(termRef);
       const term = termSnap.data() as ITerm;
-      const user = await getUserById(term.authorId);
+      const user = await userServices.getUserById(term.authorId);
       return {
          ...term,
          user: {
@@ -96,7 +95,7 @@ export const termServices = {
 
       for (const doc of querySnapshot.docs) {
          const term = doc.data() as ITerm;
-         const user = await getUserById(term.authorId);
+         const user = await userServices.getUserById(term.authorId);
 
          terms.push({
             ...term,
@@ -125,7 +124,7 @@ export const termServices = {
 
       for (const doc of querySnapshot.docs) {
          const term = doc.data() as ITerm;
-         const user = await getUserById(term.authorId);
+         const user = await userServices.getUserById(term.authorId);
 
          if (
             term.authorId !== userId &&
@@ -177,67 +176,9 @@ export const termServices = {
          }
       }
 
-      let currentIndex = games.length,
-         randomIndex;
-
-      while (currentIndex != 0) {
-         randomIndex = Math.floor(Math.random() * currentIndex);
-         currentIndex--;
-
-         [games[currentIndex], games[randomIndex]] = [
-            games[randomIndex],
-            games[currentIndex],
-         ];
-      }
-
-      return games;
+      return games.sort(() => Math.random() - 0.5);
    },
    getQuestions: async (termId: string) => {
-      const checkExist = function (
-         id: string,
-         answerChoices: IQuestion['answers']
-      ) {
-         return answerChoices.some((el) => el.answerId === id);
-      };
-
-      const getAnswers = (
-         term: ITermWithUser,
-         flashcardId: string,
-         currentAnswer: IAnswer
-      ) => {
-         const answers: IQuestion['answers'] = [];
-         const flashcardLength = term.flashcards.length;
-         const length = flashcardLength >= 4 ? 3 : 1;
-         while (answers.length !== length) {
-            const randomAnswer = term.flashcards[random(0, flashcardLength)];
-            if (
-               !checkExist(randomAnswer.id, answers) &&
-               randomAnswer.id !== flashcardId
-            ) {
-               answers.push({
-                  definition: randomAnswer.definition,
-                  answerId: randomAnswer.id,
-                  imgUrl: randomAnswer.imgUrl,
-               });
-            }
-         }
-         answers.push(currentAnswer);
-
-         let currentIndex = answers.length,
-            randomIndex;
-
-         while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            [answers[currentIndex], answers[randomIndex]] = [
-               answers[randomIndex],
-               answers[currentIndex],
-            ];
-         }
-
-         return answers;
-      };
       const term = await termServices.getTermById(termId);
 
       const questions: Array<IQuestion> = [];
@@ -258,7 +199,7 @@ export const termServices = {
          });
       }
 
-      return questions;
+      return questions.sort(() => Math.random() - 0.5);
    },
    updateFlashCard: async (
       termId: string,

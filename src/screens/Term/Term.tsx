@@ -1,8 +1,8 @@
 import { Button, Layout } from '@components';
 import { ROUTES } from '@constants';
-import { handleTextToSpeed, termServices } from '@services';
+import { termServices } from '@services';
 import { IFlashcard, ITermWithUser } from '@shared/types';
-import { isUserInUsersArray } from '@utils';
+import { handleTextToSpeed, isUserInUsersArray } from '@utils';
 import { useAuthUser } from 'next-firebase-auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

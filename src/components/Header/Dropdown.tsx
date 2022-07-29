@@ -29,7 +29,7 @@ const Dropdown = () => {
             <div
                className="flex items-center gap-4 p-4 cursor-pointer hover:bg-slate-200 transition-all font-medium"
                onClick={() => {
-                  router.push(ROUTES.PROFILE);
+                  router.push(`${ROUTES.PROFILE}/${user.id}`);
                }}
             >
                <AiOutlineUser className="w-6 h-6" />

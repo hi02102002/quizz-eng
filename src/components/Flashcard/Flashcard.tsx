@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { handleTextToSpeed } from '@services';
 import { IFlashcard } from '@shared/types';
+import { handleTextToSpeed } from '@utils';
 import { useEffect, useState } from 'react';
 import { FiVolume2 } from 'react-icons/fi';
 
@@ -28,7 +28,7 @@ const FlashCard = ({ flashCard, isActive, isReverser, isDetail }: Props) => {
 
    return (
       <div
-         className="h-full bg-transparent  rounded-lg select-none"
+         className="h-full bg-transparent  rounded-lg "
          style={{
             perspective: '1000px',
          }}
