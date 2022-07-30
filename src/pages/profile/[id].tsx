@@ -11,12 +11,16 @@ interface Props {
 
 export const getServerSideProps = withAuthUserSSR({
    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-})(async ({ params }) => {
+})(async ({ params, AuthUser }) => {
    const id = params?.id as string;
 
    const user = await userServices.getUserById(id);
 
-   const terms = await termServices.getTermsByUserId(id);
+   let terms = await termServices.getOnlyTermOwnCreate(id);
+
+   if (id === AuthUser.id) {
+      terms = await termServices.getTermsByUserId(AuthUser.id);
+   }
 
    return {
       props: {

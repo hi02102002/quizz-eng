@@ -15,7 +15,6 @@ import {
    doc,
    getDoc,
    getDocs,
-   limit,
    query,
    setDoc,
    Timestamp,
@@ -30,7 +29,7 @@ export const termServices = {
       title: string,
       description: string,
       flashcards: Array<IFlashcard>,
-      status: 'PUBLIC' | 'PRIVATE'
+      status: string
    ) => {
       const id = uuid();
 
@@ -57,7 +56,7 @@ export const termServices = {
       flashcards: Array<IFlashcard>,
       title: string,
       description: string,
-      status: 'PUBLIC' | 'PRIVATE'
+      status: string
    ) => {
       const termRef = doc(db, 'terms', idTerm);
       await updateDoc(termRef, {
@@ -109,16 +108,35 @@ export const termServices = {
 
       return terms;
    },
-   getExplore: async (userId: string) => {
+   getOnlyTermOwnCreate: async (userId: string) => {
       const q = query(
          collection(db, 'terms'),
          where('status', '==', 'PUBLIC'),
-         limit(10)
+         where('authorId', '==', userId)
       );
-
       const querySnapshot = await getDocs(q);
 
-      const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+      const terms: Array<ITermWithUser> = [];
+
+      for (const doc of querySnapshot.docs) {
+         const term = doc.data() as ITerm;
+         const user = await userServices.getUserById(term.authorId);
+
+         terms.push({
+            ...term,
+            user: {
+               avatar: user?.avatar as string,
+               email: user?.email as string,
+               username: user?.username as string,
+            },
+         });
+      }
+      return terms;
+   },
+   getExplore: async (userId: string) => {
+      const q = query(collection(db, 'terms'), where('status', '==', 'PUBLIC'));
+
+      const querySnapshot = await getDocs(q);
 
       const terms: Array<ITermWithUser> = [];
 
@@ -140,10 +158,8 @@ export const termServices = {
             });
          }
       }
-      return {
-         lastVisible,
-         terms,
-      };
+
+      return terms;
    },
    getGames: async (termId: string) => {
       const checkExist = function (id: string, gameChoices: Array<IGame>) {

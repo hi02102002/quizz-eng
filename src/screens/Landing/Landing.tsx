@@ -8,7 +8,7 @@ const Landing = () => {
       <Layout>
          <Hero />
          <div className="py-[10.125rem] text-center">
-            <p className="px-[2.5rem] text-[2rem] font-semibold">
+            <p className="px-[2.5rem] text-[2rem] font-semibold text-center">
                <span
                   className="p-[2.1875rem] bg-contain bg-center bg-no-repeat "
                   style={{

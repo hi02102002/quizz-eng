@@ -10,7 +10,7 @@ export interface ITerm {
    flashcards: Array<IFlashcard>;
    currentIndexFlashcard: number;
    users: Array<string>; // chua mang id cua user ma luu cai do
-   status: 'PUBLIC' | 'PRIVATE';
+   status: string;
    createdAt: string;
 }
 

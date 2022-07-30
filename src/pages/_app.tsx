@@ -41,6 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             autoClose={2000}
             closeButton={false}
             theme="colored"
+            className="z-[1000]"
          />
          <Component {...pageProps} />
       </>

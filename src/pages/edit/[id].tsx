@@ -1,4 +1,4 @@
-import { Spiner } from '@components';
+import { FullPageLoading } from '@components';
 import { Create } from '@screens';
 import { termServices } from '@services';
 import { IFlashcard } from '@shared/types';
@@ -9,6 +9,7 @@ interface Props {
    description?: string;
    flashcards?: Array<IFlashcard>;
    type: 'edit' | 'create';
+   status?: string;
 }
 
 export const getServerSideProps = withAuthUserSSR({
@@ -22,6 +23,7 @@ export const getServerSideProps = withAuthUserSSR({
          description: term.description,
          flashcards: term.flashcards,
          id: params?.id,
+         status: term.status,
       } as Props,
    };
 });
@@ -30,5 +32,5 @@ export default withAuthUser<Props>({
    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
    whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
    whenAuthedBeforeRedirect: AuthAction.SHOW_LOADER,
-   LoaderComponent: Spiner,
+   LoaderComponent: FullPageLoading,
 })(Create);

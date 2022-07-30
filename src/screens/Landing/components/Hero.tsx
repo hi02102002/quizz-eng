@@ -23,7 +23,7 @@ const Hero = () => {
             backgroundImage: 'url("/images/hero.svg") ',
          }}
       >
-         <div className="px-[2.5rem]">
+         <div className="md:px-[2.5rem] px-4">
             <div className="relative">
                <div className="max-w-[81.25rem]">
                   <img
@@ -32,8 +32,8 @@ const Hero = () => {
                      alt=""
                   />
                </div>
-               <div className="absolute bottom-0 left-0 flex items-end w-full justify-between">
-                  <div className="max-w-[30rem] m-[3rem] text-white w-full">
+               <div className="absolute bottom-0 left-0 flex md:flex-row flex-col md:items-end items-center text-center md:text-start w-full justify-between p-4 md:p-0">
+                  <div className="max-w-[30rem] md:m-[3rem] m-[1.5rem] text-white w-full">
                      <h1 className="text-5xl font-semibold mb-4">
                         Learn it. Own it. Quizz.
                      </h1>
@@ -45,7 +45,7 @@ const Hero = () => {
                   </div>
                   <Button
                      typeBtn="primary"
-                     className="!py-[1.25rem] !px-[2rem] m-[3rem]"
+                     className="!py-[1.25rem] !px-[2rem] md:m-[3rem] m-[1.5rem]"
                      onClick={handleGetStarted}
                   >
                      Get stared

@@ -1,5 +1,3 @@
-const ForgotPassword = () => {
-   return <div>ForgotPassword</div>;
-};
+import { ForgotPassword } from '@screens';
 
 export default ForgotPassword;

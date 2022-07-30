@@ -1,3 +1,4 @@
+import { FullPageLoading } from '@components';
 import { Write } from '@screens';
 import { termServices } from '@services';
 import { ITermWithUser } from '@shared/types';
@@ -21,4 +22,7 @@ export const getServerSideProps = withAuthUserSSR({
 
 export default withAuthUser<Props>({
    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+   whenAuthedBeforeRedirect: AuthAction.SHOW_LOADER,
+   LoaderComponent: FullPageLoading,
 })(Write);

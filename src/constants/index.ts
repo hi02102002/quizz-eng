@@ -16,6 +16,8 @@ export const ROUTES = {
    WRITE: '/write',
    PROFILE: '/profile',
    EXPLORE: '/explore',
+   SETTING: '/setting',
+   LANDING: '/landing',
 };
 
 export const SIDE_BAR_LIST = [

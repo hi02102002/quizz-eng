@@ -1,18 +1,13 @@
 import { Layout, Term } from '@components';
 import { ITermWithUser } from '@shared/types';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useState } from 'react';
 
 interface Props {
    terms: Array<ITermWithUser>;
-   lastVisible: string;
 }
 
 const Explore = (props: Props) => {
    const [terms, setTerms] = useState<Array<ITermWithUser>>(props.terms);
-   const [lastVisible, setLastVisible] = useState<
-      QueryDocumentSnapshot<DocumentData>
-   >(JSON.parse(props.lastVisible));
 
    return (
       <Layout>

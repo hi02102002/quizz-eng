@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 interface Props {
    isStop: boolean;
    getScore: (value: number) => void;
-   bestTime: number;
    isTryAgain: boolean;
 }
 
-const Sidebar = ({ isStop, getScore, bestTime, isTryAgain }: Props) => {
+const Sidebar = ({ isStop, getScore, isTryAgain }: Props) => {
    const [timer, setTimer] = useState<number>(0);
 
    useEffect(() => {
@@ -47,15 +46,6 @@ const Sidebar = ({ isStop, getScore, bestTime, isTryAgain }: Props) => {
                <span className="text-3xl font-bold text-[#4257b2]">
                   {('0' + Math.floor((timer / 60000) % 60)).slice(-2)}:
                   {('0' + Math.floor((timer / 1000) % 60)).slice(-2)}
-               </span>
-            </div>
-            <div className="flex flex-col space-y-2">
-               <span className="uppercase text-xs font-semibold">
-                  Best time
-               </span>
-               <span className="text-3xl font-bold">
-                  {('0' + Math.floor((bestTime / 60000) % 60)).slice(-2)}:
-                  {('0' + Math.floor((bestTime / 1000) % 60)).slice(-2)}
                </span>
             </div>
          </div>

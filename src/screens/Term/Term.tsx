@@ -73,6 +73,10 @@ const Term = (props: Props) => {
       });
    }, [term, user.id]);
 
+   const navigateProfile = () => {
+      router.push(`${ROUTES.PROFILE}/${term.authorId}`);
+   };
+
    return (
       <Layout>
          <div className="md:p-10 p-6 flex-1 overflow-x-hidden">
@@ -97,13 +101,17 @@ const Term = (props: Props) => {
                            alt={term.user.username}
                            width={50}
                            height={50}
-                           className="rounded-full"
+                           className="rounded-full cursor-pointer"
+                           onClick={navigateProfile}
                         />
                         <div>
                            <span className="text-[10px] text-neutral-500">
                               Created by
                            </span>
-                           <h5 className="text-[##282e3e] text-sm font-bold">
+                           <h5
+                              className="text-[##282e3e] text-sm font-bold cursor-pointer"
+                              onClick={navigateProfile}
+                           >
                               {term.user.username}
                            </h5>
                         </div>

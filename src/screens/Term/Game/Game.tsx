@@ -17,7 +17,6 @@ const Game = ({ games, termId }: Props) => {
    const [disabled, setDisabled] = useState<boolean>(false);
    const [isDone, setIsDone] = useState<boolean>(false);
    const [score, setScore] = useState<number>(0);
-   const [bestScore, setBestScore] = useState<number>(0);
    const [isTryAgain, setIsTryAgain] = useState<boolean>(false);
 
    const check = useCallback(
@@ -100,10 +99,6 @@ const Game = ({ games, termId }: Props) => {
       }
    });
 
-   useEffect(() => {
-      setBestScore(JSON.parse(localStorage.getItem('best-score') as string));
-   }, []);
-
    const handleTryAgain = useCallback(() => {
       setGamesState((games) => {
          return games
@@ -133,12 +128,6 @@ const Game = ({ games, termId }: Props) => {
          timer && clearTimeout(timer);
       };
    }, [isTryAgain]);
-
-   useEffect(() => {
-      if (isDone && score < bestScore) {
-         setBestScore(score);
-      }
-   }, [isDone, score, bestScore]);
 
    return (
       <Layout
@@ -171,7 +160,6 @@ const Game = ({ games, termId }: Props) => {
                getScore={(value) => {
                   setScore(value);
                }}
-               bestTime={bestScore}
                isTryAgain={isTryAgain}
             />
             <div className="flex-1 h-[calc(100vh_-_63px_-_80px)]">

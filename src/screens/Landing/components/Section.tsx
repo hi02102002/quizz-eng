@@ -15,17 +15,17 @@ const Section = ({
    className = '',
 }: Props) => {
    return (
-      <section className={`mb-[80px] ${className}`}>
+      <section className={`mb-10 md:mb-[80px] ${className}`}>
          <div
-            className={`flex items-center max-w-[70em] mx-auto px-10 gap-[5.375rem] ${
-               position === 'normal' ? 'flex-row' : 'flex-row-reverse'
+            className={`flex items-center max-w-[70em] mx-auto px-10 gap-8 lg:gap-[5.375rem] flex-col  ${
+               position === 'normal' ? 'md:flex-row ' : 'md:flex-row-reverse'
             }`}
          >
-            <div className="max-w-[410px] text-center">
+            <div className="max-w-[390px] text-center">
                <h2 className="text-[2rem] font-bold">{title}</h2>
                <p className="py-6 text-xl">{text}</p>
             </div>
-            <div className=" relative">
+            <div className=" relative w-full">
                <img src={image} alt="" className="w-full" />
             </div>
          </div>

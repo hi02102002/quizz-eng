@@ -1,12 +1,3 @@
-import Link from 'next/link';
+import { Page404 } from '@screens';
 
-export default function FourOhFour() {
-   return (
-      <>
-         <h1>404 - Page Not Found</h1>
-         <Link href="/">
-            <a>Go back home</a>
-         </Link>
-      </>
-   );
-}
+export default Page404;

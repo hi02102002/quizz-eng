@@ -15,19 +15,19 @@ const Header = () => {
    const [isShowDropdown, setIsShowDropdown] = useState<boolean>(false);
    const dropdownRef = useRef<HTMLDivElement | null>(null);
    useClickOutside(dropdownRef, (e) => {
-      e.preventDefault();
       e.stopPropagation();
       setIsShowDropdown(false);
    });
 
    return (
-      <header className="h-header flex items-center px-4 border-b border-solid border-[#edeff4] fixed top-0 left-0 right-0 bg-white z-[1000]">
-         <div className="flex items-center justify-between w-full flex-1">
+      <header className="h-header flex items-center px-4 border-b border-solid border-[#edeff4] fixed top-0 left-0 right-0 bg-white z-[998]">
+         <div className="flex items-center justify-between w-full flex-1 gap-4">
             <div className="flex items-center gap-4">
                <Link href={ROUTES.HOME}>
                   <a className="!no-underline">
                      <h3 className="text-3xl font-bold text-mainColor dark:text-white ">
-                        Quizz
+                        <span className="md:block hidden">Quizz</span>
+                        <span className="md:hidden block">Q</span>
                      </h3>
                   </a>
                </Link>

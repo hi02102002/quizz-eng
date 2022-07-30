@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { v4 } from 'uuid';
+import Select from './Select';
 import Study from './Study';
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
    flashcards?: Array<IFlashcard>;
    type: 'edit' | 'create';
    id?: string;
+   status?: string;
 }
 
 const Create = (props: Props) => {
@@ -39,7 +41,7 @@ const Create = (props: Props) => {
    const headerRef = useRef<HTMLDivElement | null>(null);
    const router = useRouter();
    const [loadingCreate, setLoadingCreate] = useState<boolean>(false);
-   const [status, setStatus] = useState<'PUBLIC' | 'PRIVATE'>('PUBLIC');
+   const [status, setStatus] = useState<string>(props.status || '');
 
    const handleChange = useCallback((input: IFlashcard, index: number) => {
       setFlashCards((prevStates) => {
@@ -81,7 +83,11 @@ const Create = (props: Props) => {
    );
 
    const handleCreate = useCallback(async () => {
-      if (flashcards.length < 2 || title.trim().length === 0) {
+      if (
+         flashcards.length < 2 ||
+         title.trim().length === 0 ||
+         status.length === 0
+      ) {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
          });
@@ -119,7 +125,11 @@ const Create = (props: Props) => {
    }, [description, router, flashcards, status, title, user.id]);
 
    const handleUpdate = useCallback(async () => {
-      if (flashcards.length < 2 || title.trim().length === 0) {
+      if (
+         flashcards.length < 2 ||
+         title.trim().length === 0 ||
+         status.length === 0
+      ) {
          toast('You must enter at least two cards and title to save your set', {
             type: 'error',
          });
@@ -173,7 +183,7 @@ const Create = (props: Props) => {
                headerRef.current.style.left = '0';
                headerRef.current.style.right = '0';
                headerRef.current.style.top = '0';
-               headerRef.current.style.zIndex = '10000';
+               headerRef.current.style.zIndex = '999';
             } else {
                headerRef.current.style.boxShadow = 'unset';
                headerRef.current.style.position = 'unset';
@@ -229,23 +239,43 @@ const Create = (props: Props) => {
             </div>
             <div className="ui-container">
                <div className="mb-8">
-                  <div className="space-y-2 max-w-[600px]">
-                     <Input
-                        label="Title"
-                        placeholder="Enter a title, like “Biology - Chapter 22: Evolution”"
-                        onChange={(e) => {
-                           setTitle(e.currentTarget.value);
-                        }}
-                        value={title}
-                     />
-                     <Input
-                        label="Description"
-                        placeholder="Add a description..."
-                        onChange={(e) => {
-                           setDescription(e.currentTarget.value);
-                        }}
-                        value={description}
-                     />
+                  <div className="flex md:items-start md:flex-row flex-col justify-between gap-4">
+                     <div className="space-y-2 w-full md:max-w-[600px] flex-1 ">
+                        <Input
+                           label="Title"
+                           placeholder="Enter a title, like “Biology - Chapter 22: Evolution”"
+                           onChange={(e) => {
+                              setTitle(e.currentTarget.value);
+                           }}
+                           value={title}
+                        />
+                        <Input
+                           label="Description"
+                           placeholder="Add a description..."
+                           onChange={(e) => {
+                              setDescription(e.currentTarget.value);
+                           }}
+                           value={description}
+                        />
+                     </div>
+                     <div className="flex justify-center items-center md:block">
+                        <Select
+                           onClick={(value) => {
+                              setStatus(value);
+                           }}
+                           values={[
+                              {
+                                 id: v4(),
+                                 value: 'PUBLIC',
+                              },
+                              {
+                                 id: v4(),
+                                 value: 'PRIVATE',
+                              },
+                           ]}
+                           value={status}
+                        />
+                     </div>
                   </div>
                </div>
                <div>

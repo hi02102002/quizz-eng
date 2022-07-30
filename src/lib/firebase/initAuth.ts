@@ -3,7 +3,7 @@ import { init } from 'next-firebase-auth';
 
 const initAuth = () => {
    init({
-      authPageURL: ROUTES.LOGIN,
+      authPageURL: ROUTES.LANDING,
       appPageURL: ROUTES.HOME,
       loginAPIEndpoint: ROUTES.API_lOGIN, // required
       logoutAPIEndpoint: ROUTES.API_LOG_OUT, // required
