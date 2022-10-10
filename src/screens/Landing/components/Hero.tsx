@@ -29,7 +29,7 @@ const Hero = () => {
                <div className="min-h-[31.25rem] relative">
                   <Image
                      className=" object-cover block w-full rounded-[1.5rem]"
-                     src="/images/img-hero.avif"
+                     src="/images/img-hero.png"
                      alt=""
                      layout="fill"
                   />
