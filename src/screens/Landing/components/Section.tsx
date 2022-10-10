@@ -1,8 +1,10 @@
+import { StaticImageData } from 'next/image';
+
 /* eslint-disable @next/next/no-img-element */
 interface Props {
    position?: 'reverser' | 'normal';
    text: string;
-   image: string;
+   image: string | StaticImageData;
    title: string;
    className?: string;
 }
@@ -26,7 +28,11 @@ const Section = ({
                <p className="py-6 text-xl">{text}</p>
             </div>
             <div className=" relative w-full">
-               <img src={image} alt="" className="w-full" />
+               <img
+                  src={image as string}
+                  alt=""
+                  className="w-full h-full object-contain"
+               />
             </div>
          </div>
       </section>

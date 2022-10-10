@@ -1,6 +1,7 @@
 import { Button } from '@components';
 import { ROUTES } from '@constants';
 import { useAuthUser } from 'next-firebase-auth';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
@@ -23,13 +24,14 @@ const Hero = () => {
             backgroundImage: 'url("/images/hero.svg") ',
          }}
       >
-         <div className="md:px-[2.5rem] px-4">
-            <div className="relative">
-               <div className="max-w-[81.25rem]">
-                  <img
-                     className="min-h-[31.25rem] object-cover block w-full rounded-[1.5rem]"
+         <div className="md:px-[2.5rem] px-4 w-full">
+            <div className="max-w-[81.25rem] w-full relative mx-auto">
+               <div className="min-h-[31.25rem] relative">
+                  <Image
+                     className=" object-cover block w-full rounded-[1.5rem]"
                      src="/images/img-hero.avif"
                      alt=""
+                     layout="fill"
                   />
                </div>
                <div className="absolute bottom-0 left-0 flex md:flex-row flex-col md:items-end items-center text-center md:text-start w-full justify-between p-4 md:p-0">
